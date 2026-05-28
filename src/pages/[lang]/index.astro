@@ -1,7 +1,8 @@
 ---
-import ProductCard from "../../components/ProductCard.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import ResourceCard from "../../components/ResourceCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getLocale, localePath, locales, site } from "../../data/site";
+import { getLocale, localePath, locales, projectCategories, site } from "../../data/site";
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -10,8 +11,14 @@ export function getStaticPaths() {
 const locale = getLocale(Astro.params.lang);
 const content = site[locale];
 const { profile } = content;
-const previewNotes = content.notes.slice(0, 3);
-const previewProducts = content.products.slice(0, 3);
+
+const projectGroups = projectCategories
+  .map((category) => ({
+    category,
+    label: content.projectCategoryLabels[category],
+    items: content.projects.filter((project) => project.category === category),
+  }))
+  .filter((group) => group.items.length > 0);
 ---
 
 <BaseLayout locale={locale} title={profile.name} description={profile.summary}>
@@ -49,33 +56,43 @@ const previewProducts = content.products.slice(0, 3);
     </p>
   </section>
 
-  <section id="notes">
-    <h2>{content.sections.notes.title}</h2>
-    <p class="muted">{content.sections.notes.intro}</p>
-    <ul class="entry-list">
-      {previewNotes.map((item) => (
-        <li>
-          <span class="entry-meta">{item.meta}</span>
-          <div>
-            <h3>
-              <a href={localePath(locale, `notes/${item.slug}/`)}>{item.title}</a>
-            </h3>
-            <p class="muted">{item.text}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
+  <section id="blog">
+    <h2>{content.sections.blog.title}</h2>
+    <p class="muted">{content.sections.blog.intro}</p>
+    <p class="muted todo">{content.sections.blog.placeholder}</p>
     <p class="more-link">
-      <a href={localePath(locale, "notes/")}>{content.sections.notes.all}</a>
+      <a href={localePath(locale, "blog/")}>{content.sections.blog.all}</a>
+    </p>
+  </section>
+
+  <section id="resources">
+    <h2>{content.sections.resources.title}</h2>
+    <p class="muted">{content.sections.resources.intro}</p>
+    <div class="grid three resource-grid">
+      {content.resources.map((resource) => (
+        <ResourceCard
+          locale={locale}
+          resource={resource}
+          todoLabel={content.resourcesPage.todoLabel}
+        />
+      ))}
+    </div>
+    <p class="more-link">
+      <a href={localePath(locale, "resources/")}>{content.sections.resources.all}</a>
     </p>
   </section>
 
   <section id="projects">
     <h2>{content.sections.projects.title}</h2>
     <p class="muted">{content.sections.projects.intro}</p>
-    <div class="grid three">
-      {previewProducts.map((product) => <ProductCard locale={locale} product={product} />)}
-    </div>
+    {projectGroups.map((group) => (
+      <div class="project-group">
+        <h3 class="group-label">{group.label}</h3>
+        <div class="grid three">
+          {group.items.map((project) => <ProjectCard project={project} />)}
+        </div>
+      </div>
+    ))}
     <p class="more-link">
       <a href={localePath(locale, "products/")}>{content.sections.projects.all}</a>
     </p>
@@ -174,6 +191,27 @@ const previewProducts = content.products.slice(0, 3);
 
   .entry-list p {
     margin-bottom: 0;
+  }
+
+  .todo {
+    font-style: italic;
+  }
+
+  .resource-grid {
+    margin-top: 1rem;
+  }
+
+  .project-group + .project-group {
+    margin-top: 1.5rem;
+  }
+
+  .group-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
   }
 
   .more-link {

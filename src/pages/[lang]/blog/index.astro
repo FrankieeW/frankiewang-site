@@ -12,27 +12,27 @@ const content = site[locale];
 
 <BaseLayout
   locale={locale}
-  title={content.notesPage.title}
-  description={content.notesPage.description}
+  title={content.blogPage.title}
+  description={content.blogPage.description}
 >
   <section>
-    <h1>{content.notesPage.heading}</h1>
-    <p class="muted">{content.notesPage.lead}</p>
+    <h1>{content.blogPage.heading}</h1>
+    <p class="muted">{content.blogPage.lead}</p>
   </section>
 
   <section>
-    {content.notes.length === 0 ? (
-      <p class="muted todo">{content.notesPage.placeholder}</p>
+    {content.posts.length === 0 ? (
+      <p class="muted todo">{content.blogPage.placeholder}</p>
     ) : (
       <ul class="entry-list">
-        {content.notes.map((item) => (
+        {content.posts.map((post) => (
           <li>
-            <span class="entry-meta">{item.meta}</span>
+            <span class="entry-meta">{post.meta}</span>
             <div>
               <h3>
-                <a href={localePath(locale, `notes/${item.slug}/`)}>{item.title}</a>
+                <a href={localePath(locale, `blog/${post.slug}/`)}>{post.title}</a>
               </h3>
-              <p class="muted">{item.text}</p>
+              <p class="muted">{post.text}</p>
             </div>
           </li>
         ))}

@@ -1,0 +1,74 @@
+---
+import { localePath, type Locale } from "../data/site";
+
+interface Resource {
+  name: string;
+  description: string;
+  todo?: boolean;
+  to?: string;
+  url?: string;
+}
+
+const { locale, resource, todoLabel } = Astro.props as {
+  locale: Locale;
+  resource: Resource;
+  todoLabel: string;
+};
+
+const href = resource.to ? localePath(locale, resource.to) : resource.url;
+const external = Boolean(resource.url);
+---
+
+<article class="resource-card">
+  <h3>
+    {href ? (
+      <a
+        href={href}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {resource.name}{external ? " ↗" : ""}
+      </a>
+    ) : (
+      <span>{resource.name}</span>
+    )}
+    {resource.todo && <span class="tag">{todoLabel}</span>}
+  </h3>
+  <p class="muted">{resource.description}</p>
+</article>
+
+<style>
+  .resource-card h3 {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .resource-card a {
+    color: inherit;
+  }
+
+  .resource-card a:hover {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  .tag {
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.05rem 0.5rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+</style>

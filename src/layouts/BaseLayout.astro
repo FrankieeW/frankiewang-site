@@ -39,9 +39,10 @@ const suffix = Astro.url.pathname.replace(/^\/(en|zh|fr)/, "") || "/";
       </a>
       <nav aria-label="Primary navigation">
         <a href={localePath(locale, "academic/")}>{content.nav.academic}</a>
-        <a href={localePath(locale, "notes/")}>{content.nav.notes}</a>
+        <a href={localePath(locale, "blog/")}>{content.nav.blog}</a>
+        <a href={localePath(locale, "resources/")}>{content.nav.resources}</a>
         <a href={localePath(locale, "products/")}>{content.nav.projects}</a>
-        <a href={`${localePath(locale)}#contact`}>{content.nav.contact}</a>
+        <a href={localePath(locale, "contact/")}>{content.nav.contact}</a>
       </nav>
       <div class="language-switch" aria-label="Language switcher">
         {locales.map((code) => (

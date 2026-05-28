@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, locales, site, socials } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+const { profile } = content;
+
+const githubHandle = (url: string) => url.replace("https://github.com/", "@");
+---
+
+<BaseLayout
+  locale={locale}
+  title={content.contactPage.title}
+  description={content.contactPage.description}
+>
+  <section>
+    <h1>{content.contactPage.heading}</h1>
+    <p class="muted">{content.contactPage.lead}</p>
+    <ul class="contact-list">
+      <li>Email · <a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+      <li>
+        GitHub ·
+        <a href={profile.github}>{githubHandle(profile.github)}</a>
+        <span class="muted">({content.sections.contact.githubMain})</span>
+        ·
+        <a href={profile.githubAcademic}>{githubHandle(profile.githubAcademic)}</a>
+        <span class="muted">({content.sections.contact.githubAcademic})</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{content.contactPage.socialsTitle}</h2>
+    {socials.length > 0 ? (
+      <ul class="social-list">
+        {socials.map((social) => (
+          <li>
+            <a href={social.url} target="_blank" rel="noopener noreferrer">
+              <span class="platform">{social.platform}</span>
+              <span class="handle muted">{social.handle}</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="muted todo">{content.contactPage.socialPlaceholder}</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contact-list li {
+    margin-bottom: 0.35rem;
+  }
+
+  .todo {
+    font-style: italic;
+    margin: 0;
+  }
+
+  .social-list {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    max-width: 26rem;
+    padding: 0;
+  }
+
+  .social-list li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .social-list li:first-child {
+    border-top: 1px solid var(--line);
+  }
+
+  .social-list a {
+    align-items: baseline;
+    color: inherit;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.7rem 0.1rem;
+  }
+
+  .social-list a:hover {
+    text-decoration: none;
+  }
+
+  .social-list a:hover .platform {
+    color: var(--link);
+  }
+
+  .platform {
+    font-weight: 600;
+    min-width: 6rem;
+  }
+
+  .handle {
+    flex: 1;
+  }
+
+  .arrow {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+</style>
