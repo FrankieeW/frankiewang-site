@@ -1,138 +1,23 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { products } from "../../data/site";
-
 export function getStaticPaths() {
-  return products.map((product) => ({
-    params: { slug: product.slug },
-    props: { product },
-  }));
+  return [
+    { params: { slug: "lean-study-kit" } },
+    { params: { slug: "research-homebase" } },
+    { params: { slug: "daily-proof" } },
+  ];
 }
 
-const { product } = Astro.props;
+const { slug } = Astro.params;
 ---
 
-<BaseLayout title={product.name} description={product.tagline}>
-  <article class="product-page">
-    <div class="product-hero">
-      <div>
-        <p class="section-kicker">{product.eyebrow}</p>
-        <h1>{product.name}</h1>
-        <p class="lead">{product.tagline}</p>
-      </div>
-      <aside class="product-status">
-        <span>Status</span>
-        <strong>{product.status}</strong>
-      </aside>
-    </div>
-
-    <section class="product-detail">
-      <div class="detail-block">
-        <p class="section-kicker">Audience</p>
-        <p>{product.audience}</p>
-      </div>
-      <div class="detail-block">
-        <p class="section-kicker">Shape</p>
-        <p>{product.eyebrow}</p>
-      </div>
-      <div class="detail-block wide">
-        <h2>Problem</h2>
-        <p>{product.problem}</p>
-      </div>
-      <div class="detail-block wide">
-        <h2>Solution</h2>
-        <p>{product.solution}</p>
-      </div>
-      <div class="detail-block wide">
-        <h2>Feature set</h2>
-        <ul>
-          {product.features.map((feature) => <li>{feature}</li>)}
-        </ul>
-      </div>
-    </section>
-  </article>
-</BaseLayout>
-
-<style>
-  .product-page {
-    margin: 0 auto;
-    max-width: 1040px;
-    padding: 5rem 1.25rem;
-  }
-
-  .product-hero {
-    align-items: start;
-    border-bottom: 1px solid var(--line);
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: minmax(0, 1fr) 12rem;
-    padding-bottom: 3rem;
-  }
-
-  .product-status {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 0.3rem;
-    padding: 1rem;
-  }
-
-  .product-status span {
-    color: var(--muted);
-    font-size: 0.8rem;
-  }
-
-  .product-status strong {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.35rem;
-    font-weight: 500;
-  }
-
-  .product-detail {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .detail-block {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 1.25rem;
-  }
-
-  .detail-block.wide {
-    grid-column: 1 / -1;
-  }
-
-  .detail-block p:last-child {
-    margin-bottom: 0;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 0.55rem 0.8rem;
-  }
-
-  @media (max-width: 820px) {
-    .product-page {
-      padding: 3.5rem 1rem;
-    }
-
-    .product-hero,
-    .product-detail {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=/en/products/${slug}/`} />
+    <link rel="canonical" href={`/en/products/${slug}/`} />
+    <title>Project | Feng-Cheng Frankie Wang</title>
+  </head>
+  <body>
+    <p><a href={`/en/products/${slug}/`}>Continue to English project</a></p>
+  </body>
+</html>

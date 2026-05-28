@@ -1,0 +1,94 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, locales, site } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={content.academicPage.title}
+  description={content.academicPage.description}
+>
+  <section>
+    <h1>{content.academicPage.heading}</h1>
+    <p class="muted">{content.academicPage.lead}</p>
+  </section>
+
+  <section>
+    <h2>{content.sections.academic.interestsTitle}</h2>
+    <ul class="topic-list">
+      {content.researchInterests.map((item) => (
+        <li><strong>{item.title}.</strong> {item.text}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>{content.sections.academic.educationTitle}</h2>
+    <ul class="education-list">
+      {content.education.map((item) => (
+        <li>
+          <span class="period">{item.period}</span>
+          <div>
+            <h3>{item.degree}</h3>
+            <p class="institution">{item.institution}</p>
+            <p class="muted">{item.note}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .topic-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic-list li {
+    margin-bottom: 0.55rem;
+  }
+
+  .education-list {
+    display: grid;
+    gap: 1.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .education-list li {
+    display: grid;
+    gap: 0.2rem;
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+
+  .period {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-style: italic;
+    padding-top: 0.15rem;
+  }
+
+  .institution {
+    margin-bottom: 0.25rem;
+  }
+
+  .education-list p {
+    margin-bottom: 0.2rem;
+  }
+
+  @media (max-width: 640px) {
+    .education-list li {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

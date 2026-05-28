@@ -1,0 +1,32 @@
+---
+import ProductCard from "../../../components/ProductCard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, locales, site } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={content.productsPage.title}
+  description={content.productsPage.description}
+>
+  <section>
+    <h1>{content.productsPage.heading}</h1>
+    <p class="muted">{content.productsPage.lead}</p>
+    <div class="grid three product-grid">
+      {content.products.map((product) => <ProductCard locale={locale} product={product} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .product-grid {
+    margin-top: 1.5rem;
+  }
+</style>

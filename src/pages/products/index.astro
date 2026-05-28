@@ -1,24 +1,14 @@
 ---
-import ProductCard from "../../components/ProductCard.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { products } from "../../data/site";
 ---
 
-<BaseLayout title="Projects" description="Projects and experiments by Feng-Cheng Frankie Wang.">
-  <div class="page-shell">
-    <p class="section-kicker">Projects</p>
-    <h1>Projects and experiments.</h1>
-    <p class="lead">
-      Small tools and project ideas around learning, research, and mathematical practice. Each one starts from a repeated friction in study or writing.
-    </p>
-    <div class="grid three product-grid">
-      {products.map((product) => <ProductCard product={product} />)}
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .product-grid {
-    margin-top: 3rem;
-  }
-</style>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=/en/products/" />
+    <link rel="canonical" href="/en/products/" />
+    <title>Projects | Feng-Cheng Frankie Wang</title>
+  </head>
+  <body>
+    <p><a href="/en/products/">Continue to English projects</a></p>
+  </body>
+</html>

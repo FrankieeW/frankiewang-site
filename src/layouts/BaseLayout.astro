@@ -1,53 +1,61 @@
 ---
-import { profile } from "../data/site";
+import { localeLabels, locales, localePath, site, type Locale } from "../data/site";
 
 interface Props {
+  locale: Locale;
   title?: string;
   description?: string;
 }
 
 const {
-  title = profile.name,
-  description = profile.summary,
+  locale,
+  title,
+  description,
 } = Astro.props;
 
-const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
+const content = site[locale];
+const profile = content.profile;
+const pageTitle = !title || title === profile.name ? profile.name : `${title} | ${profile.name}`;
+const pageDescription = description ?? profile.summary;
+const suffix = Astro.url.pathname.replace(/^\/(en|zh|fr)/, "") || "/";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={content.htmlLang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" />
     <title>{pageTitle}</title>
   </head>
   <body>
-    <div class="institution-strip" aria-label="Academic affiliation">
-      <span>{profile.institution}</span>
-      <span>{profile.department}</span>
-    </div>
     <header class="site-header">
-      <a class="brand" href="/" aria-label={`${profile.name} home`}>
-        <span class="brand-mark">FW</span>
-        <span>{profile.name}</span>
+      <a class="brand" href={localePath(locale)} aria-label={`${profile.name} home`}>
+        {profile.name}
       </a>
       <nav aria-label="Primary navigation">
-        <a href="/#research">Research</a>
-        <a href="/#writing">Writing</a>
-        <a href="/#life">Life</a>
-        <a href="/products">Projects</a>
+        <a href={localePath(locale, "academic/")}>{content.nav.academic}</a>
+        <a href={localePath(locale, "notes/")}>{content.nav.notes}</a>
+        <a href={localePath(locale, "products/")}>{content.nav.projects}</a>
+        <a href={`${localePath(locale)}#contact`}>{content.nav.contact}</a>
       </nav>
+      <div class="language-switch" aria-label="Language switcher">
+        {locales.map((code) => (
+          <a class:list={{ active: code === locale }} href={`/${code}${suffix}`}>
+            {localeLabels[code]}
+          </a>
+        ))}
+      </div>
     </header>
     <main>
       <slot />
     </main>
     <footer class="site-footer">
-      <span>Independent personal website</span>
+      <span>{content.footer}</span>
       <a href={profile.github}>GitHub</a>
       <a href={`mailto:${profile.email}`}>{profile.email}</a>
     </footer>
@@ -57,18 +65,17 @@ const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
 <style is:global>
   :root {
     color-scheme: light;
-    --ink: #171717;
-    --muted: #66645f;
-    --paper: #faf9f5;
+    --ink: #1a1a1a;
+    --muted: #5c5c5c;
+    --paper: #fdfcf8;
     --surface: #ffffff;
-    --line: #dfddd5;
+    --line: #e5e2d8;
     --line-strong: #c8c5bb;
-    --accent: #7a3f2b;
-    --imperial-blue: #003e74;
-    --blue: #355c7d;
+    --accent: #8a4a2a;
+    --link: #1a4a7a;
     font-family:
-      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      sans-serif;
+      "Source Serif Pro", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+      "Times New Roman", serif;
   }
 
   * {
@@ -79,12 +86,17 @@ const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 1.65;
   }
 
   a {
-    color: inherit;
+    color: var(--link);
     text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   img {
@@ -92,95 +104,82 @@ const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
     max-width: 100%;
   }
 
-  .institution-strip,
   .site-header,
   .site-footer {
-    align-items: center;
+    align-items: baseline;
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 1.2rem;
     justify-content: space-between;
     margin: 0 auto;
-    max-width: 1040px;
-    padding: 1.1rem 1.25rem;
-  }
-
-  .institution-strip {
-    background: var(--imperial-blue);
-    color: #ffffff;
-    font-size: 0.78rem;
-    font-weight: 620;
-    letter-spacing: 0.02em;
-    padding-bottom: 0.55rem;
-    padding-top: 0.55rem;
+    max-width: 760px;
+    padding: 1.4rem 1.5rem 0.9rem;
   }
 
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: blur(18px);
-    background: rgba(250, 249, 245, 0.88);
-    border-bottom: 1px solid rgba(223, 221, 213, 0.82);
-  }
-
-  .brand,
-  nav,
-  .site-footer {
-    color: var(--muted);
-    font-size: 0.88rem;
-    font-weight: 520;
+    border-bottom: 1px solid var(--line);
   }
 
   .brand {
-    align-items: center;
     color: var(--ink);
-    display: inline-flex;
-    gap: 0.65rem;
-    white-space: nowrap;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
 
-  .brand-mark {
-    align-items: center;
-    border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    color: var(--ink);
-    display: inline-flex;
-    font-size: 0.78rem;
-    height: 2.1rem;
-    justify-content: center;
-    width: 2.1rem;
+  .brand:hover {
+    text-decoration: none;
   }
 
   nav {
+    color: var(--muted);
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    gap: 1.1rem;
   }
 
-  nav a,
-  .site-footer a {
-    border-bottom: 1px solid transparent;
+  nav a {
+    color: var(--muted);
   }
 
-  nav a:hover,
-  .site-footer a:hover {
-    border-color: currentColor;
+  nav a:hover {
     color: var(--ink);
+    text-decoration: none;
+  }
+
+  .language-switch {
+    color: var(--muted);
+    display: flex;
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .language-switch a {
+    color: var(--muted);
+  }
+
+  .language-switch a.active {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  main {
+    margin: 0 auto;
+    max-width: 760px;
+    padding: 0 1.5rem;
   }
 
   section,
   .page-shell {
-    margin: 0 auto;
-    max-width: 1040px;
-    padding: 4.75rem 1.25rem;
+    margin: 0;
+    max-width: none;
+    padding: 2.25rem 0;
   }
 
-  .section-kicker {
-    color: var(--accent);
-    font-size: 0.76rem;
-    font-weight: 650;
-    letter-spacing: 0.12em;
-    margin: 0 0 0.75rem;
-    text-transform: uppercase;
+  section + section {
+    border-top: 1px solid var(--line);
   }
 
   h1,
@@ -191,35 +190,39 @@ const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
   }
 
   h1 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(3.1rem, 8vw, 6.4rem);
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 0.98;
-    margin-bottom: 1.25rem;
-    max-width: 860px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
   }
 
   h2 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.9rem, 4vw, 3.2rem);
-    font-weight: 500;
+    font-size: 1.25rem;
+    font-weight: 600;
     letter-spacing: 0;
-    line-height: 1.08;
-    margin-bottom: 1rem;
-    max-width: 780px;
+    line-height: 1.25;
+    margin-bottom: 0.9rem;
   }
 
   h3 {
-    font-size: 1rem;
+    font-size: 1.02rem;
+    font-weight: 600;
     line-height: 1.35;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.25rem;
+  }
+
+  p {
+    margin-bottom: 0.9rem;
   }
 
   .lead {
+    color: var(--ink);
+    font-size: 1.02rem;
+  }
+
+  .muted {
     color: var(--muted);
-    font-size: clamp(1.1rem, 2vw, 1.28rem);
-    max-width: 700px;
   }
 
   .button-row {
@@ -229,20 +232,12 @@ const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
   }
 
   .button {
-    align-items: center;
-    background: transparent;
-    border: 1px solid var(--ink);
-    border-radius: 999px;
-    color: var(--ink);
-    display: inline-flex;
-    font-size: 0.92rem;
-    font-weight: 620;
-    min-height: 2.65rem;
-    padding: 0.65rem 1rem;
+    color: var(--link);
+    display: inline-block;
+    font-size: 0.95rem;
   }
 
   .button.secondary {
-    border-color: var(--line-strong);
     color: var(--muted);
   }
 
@@ -252,47 +247,39 @@ const pageTitle = title === profile.name ? title : `${title} | ${profile.name}`;
   }
 
   .grid.three {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .card {
-    border-top: 1px solid var(--line);
-    padding-top: 1rem;
+    padding: 0;
   }
 
   .card-body {
     padding: 0;
   }
 
-  .muted {
+  .site-footer {
+    border-bottom: 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    padding-bottom: 1.4rem;
+    padding-top: 0.9rem;
+  }
+
+  .site-footer a {
     color: var(--muted);
   }
 
-  .site-footer {
-    border-top: 1px solid var(--line);
-    flex-wrap: wrap;
-    margin-top: 2rem;
-  }
-
-  @media (max-width: 760px) {
-    .site-header {
-      align-items: flex-start;
-      flex-direction: column;
+  @media (max-width: 640px) {
+    body {
+      font-size: 16px;
     }
 
-    .institution-strip {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    nav {
-      flex-wrap: wrap;
-    }
-
-    section,
-    .page-shell {
-      padding: 3.5rem 1rem;
+    .site-header,
+    .site-footer {
+      gap: 0.6rem;
     }
 
     .grid.three {

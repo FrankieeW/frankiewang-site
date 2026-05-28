@@ -1,0 +1,194 @@
+---
+import ProductCard from "../../components/ProductCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getLocale, localePath, locales, site } from "../../data/site";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+const { profile } = content;
+const previewNotes = content.notes.slice(0, 3);
+const previewProducts = content.products.slice(0, 3);
+---
+
+<BaseLayout locale={locale} title={profile.name} description={profile.summary}>
+  <section class="intro">
+    <figure class="avatar">
+      <img
+        src={profile.avatar}
+        alt={profile.avatarAlt}
+        loading="eager"
+        onerror="this.closest('figure').hidden = true"
+      />
+    </figure>
+    <div class="intro-text">
+      <h1>{profile.name}</h1>
+      <p class="role">
+        {profile.title} ·
+        <a href={profile.departmentUrl}>{profile.department}</a>,
+        {profile.institution}.
+      </p>
+      <p>{profile.summary}</p>
+      <p class="muted">{profile.current}</p>
+    </div>
+  </section>
+
+  <section id="academic">
+    <h2>{content.sections.academic.title}</h2>
+    <p class="muted">{content.sections.academic.intro}</p>
+    <ul class="topic-list">
+      {content.researchInterests.map((item) => (
+        <li><strong>{item.title}.</strong> {item.text}</li>
+      ))}
+    </ul>
+    <p class="more-link">
+      <a href={localePath(locale, "academic/")}>{content.sections.academic.all}</a>
+    </p>
+  </section>
+
+  <section id="notes">
+    <h2>{content.sections.notes.title}</h2>
+    <p class="muted">{content.sections.notes.intro}</p>
+    <ul class="entry-list">
+      {previewNotes.map((item) => (
+        <li>
+          <span class="entry-meta">{item.meta}</span>
+          <div>
+            <h3>
+              <a href={localePath(locale, `notes/${item.slug}/`)}>{item.title}</a>
+            </h3>
+            <p class="muted">{item.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="more-link">
+      <a href={localePath(locale, "notes/")}>{content.sections.notes.all}</a>
+    </p>
+  </section>
+
+  <section id="projects">
+    <h2>{content.sections.projects.title}</h2>
+    <p class="muted">{content.sections.projects.intro}</p>
+    <div class="grid three">
+      {previewProducts.map((product) => <ProductCard locale={locale} product={product} />)}
+    </div>
+    <p class="more-link">
+      <a href={localePath(locale, "products/")}>{content.sections.projects.all}</a>
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2>{content.sections.contact.title}</h2>
+    <p>{content.sections.contact.intro}</p>
+    <ul class="contact-list">
+      <li>Email · <a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+      <li>
+        GitHub ·
+        <a href={profile.github}>{profile.github.replace("https://github.com/", "@")}</a>
+        <span class="muted">({content.sections.contact.githubMain})</span>
+        ·
+        <a href={profile.githubAcademic}>{profile.githubAcademic.replace("https://github.com/", "@")}</a>
+        <span class="muted">({content.sections.contact.githubAcademic})</span>
+      </li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    display: grid;
+    gap: 1.6rem;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    padding-top: 2.6rem;
+  }
+
+  .avatar {
+    margin: 0.35rem 0 0;
+  }
+
+  .avatar img {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .intro-text h1 {
+    margin-bottom: 0.35rem;
+  }
+
+  .role {
+    color: var(--muted);
+    font-size: 0.98rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .topic-list,
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic-list li {
+    margin-bottom: 0.55rem;
+  }
+
+  .contact-list li {
+    margin-bottom: 0.25rem;
+  }
+
+  .entry-list {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entry-list li {
+    display: grid;
+    gap: 0.15rem;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+  }
+
+  .entry-meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    padding-top: 0.15rem;
+  }
+
+  .entry-list h3 a {
+    color: inherit;
+  }
+
+  .entry-list h3 a:hover {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  .entry-list p {
+    margin-bottom: 0;
+  }
+
+  .more-link {
+    margin: 1rem 0 0;
+  }
+
+  @media (max-width: 640px) {
+    .intro {
+      grid-template-columns: 5rem minmax(0, 1fr);
+      gap: 1.1rem;
+    }
+
+    .entry-list li {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+</style>
