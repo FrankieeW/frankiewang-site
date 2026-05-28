@@ -251,16 +251,18 @@ const education = content.education as readonly EducationItem[];
 
   .course-list li {
     break-inside: avoid;
-    padding: 0.12rem 0;
+    padding: 0.12rem 0 0.12rem 0.85rem;
     position: relative;
-    padding-left: 0.95rem;
   }
 
   .course-list li::before {
     color: var(--muted);
-    content: "—";
-    left: 0;
+    content: "·";
+    font-size: 1.1rem;
+    left: 0.1rem;
+    line-height: 1;
     position: absolute;
+    top: 0.2rem;
   }
 
   @media (max-width: 640px) {
