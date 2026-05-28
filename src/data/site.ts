@@ -131,6 +131,7 @@ export const site = {
         period: "2021 – 2025",
         degree: "BSc Mathematics, Dual Degree Programme",
         institution: "University of Leicester & Dalian University of Technology",
+        note: "A mathematics core supplemented with specialist modules in physics and computer science.",
         tracks: [
           {
             school: "University of Leicester",
@@ -316,6 +317,7 @@ export const site = {
         period: "2021 – 2025",
         degree: "数学本科（中外联合培养双学位）",
         institution: "University of Leicester & 大连理工大学",
+        note: "课程以数学为主干，并包含物理与计算机方向的专业课。",
         tracks: [
           {
             school: "University of Leicester",
@@ -496,6 +498,7 @@ export const site = {
         period: "2021 – 2025",
         degree: "BSc Mathematics (programme de double diplôme)",
         institution: "University of Leicester & Dalian University of Technology",
+        note: "Programme centré sur les mathématiques, complété par des modules spécialisés en physique et en informatique.",
         tracks: [
           {
             school: "University of Leicester",
