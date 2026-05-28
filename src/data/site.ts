@@ -37,6 +37,12 @@ const resourceLinks = {
   dutLetter: "https://github.com/FrankieeW/DUT-letter-latex",
 };
 
+export const socials = [
+  { platform: "Instagram", handle: "@frankiefcw", url: "https://instagram.com/frankiefcw" },
+  { platform: "X", handle: "@frankieFCW", url: "https://x.com/frankieFCW" },
+  { platform: "Weibo", handle: "frankie-wang", url: "https://weibo.com/frankie-wang" },
+] as const;
+
 export const site = {
   en: {
     htmlLang: "en",
