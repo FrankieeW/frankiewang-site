@@ -1,64 +1,76 @@
 ---
 import ProductCard from "../components/ProductCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { academicHighlights, lifeHighlights, products, profile } from "../data/site";
+import { academicHighlights, lifeHighlights, products, profile, writing } from "../data/site";
 ---
 
 <BaseLayout title={profile.name} description={profile.summary}>
   <section class="hero">
-    <div class="hero-copy">
-      <p class="section-kicker">Academic + life + products</p>
+    <div>
+      <p class="section-kicker">Academic / Life / Products</p>
       <h1>{profile.name}</h1>
-      <p class="lead">{profile.summary}</p>
+      <p class="lead">{profile.title}</p>
+    </div>
+    <aside class="intro-note" aria-label="Current focus">
+      <p>{profile.summary}</p>
+      <p>{profile.current}</p>
       <div class="button-row">
-        <a class="button" href="/products">View products</a>
-        <a class="button secondary" href="#academic">Read academic work</a>
+        <a class="button" href="#research">Research</a>
+        <a class="button secondary" href="/products">Products</a>
       </div>
-    </div>
-    <div class="hero-visual" aria-hidden="true">
-      <img
-        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80"
-        alt=""
-      />
-      <div class="note">
-        <strong>Current focus</strong>
-        <span>formal methods, notes, and small software products</span>
-      </div>
-    </div>
+    </aside>
   </section>
 
-  <section id="academic">
-    <p class="section-kicker">Academic</p>
-    <h2>Research notes, formalization, and learning systems.</h2>
-    <div class="grid three">
+  <section id="research" class="split-section">
+    <div>
+      <p class="section-kicker">Research</p>
+      <h2>Research notes, formalization, and learning systems.</h2>
+    </div>
+    <div class="stack-list">
       {academicHighlights.map((item) => (
-        <article class="card">
-          <div class="card-body">
-            <p class="pill">{item.label}</p>
+        <article class="list-row">
+          <span>{item.label}</span>
+          <div>
             <h3>{item.title}</h3>
-            <p class="muted">{item.text}</p>
+            <p>{item.text}</p>
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  <section id="life" class="life-section">
+  <section id="writing" class="split-section">
+    <div>
+      <p class="section-kicker">Writing</p>
+      <h2>Essays, notes, and records of work in progress.</h2>
+    </div>
+    <div class="stack-list">
+      {writing.map((item) => (
+        <article class="list-row">
+          <span>{item.meta}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="life" class="split-section">
     <div>
       <p class="section-kicker">Life</p>
       <h2>Personal fragments that keep the technical work human.</h2>
     </div>
-    <ul>
+    <ul class="life-list">
       {lifeHighlights.map((item) => <li>{item}</li>)}
     </ul>
   </section>
 
-  <section>
+  <section class="products-section">
     <div class="section-heading">
-      <div>
-        <p class="section-kicker">Products</p>
-        <h2>Small products in progress.</h2>
-      </div>
+      <p class="section-kicker">Products</p>
+      <h2>Small products in progress.</h2>
       <a class="button secondary" href="/products">All products</a>
     </div>
     <div class="grid three">
@@ -69,92 +81,87 @@ import { academicHighlights, lifeHighlights, products, profile } from "../data/s
 
 <style>
   .hero {
-    align-items: end;
+    align-items: start;
+    border-bottom: 1px solid var(--line);
     display: grid;
     gap: 2rem;
-    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-    min-height: calc(100vh - 4.2rem);
-    padding-top: 4rem;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.52fr);
+    min-height: 72vh;
+    padding-top: 7rem;
   }
 
-  .hero-copy {
-    padding-bottom: 4rem;
-  }
-
-  .hero-visual {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    min-height: 520px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .hero-visual img {
-    height: 100%;
-    min-height: 520px;
-    object-fit: cover;
-    width: 100%;
-  }
-
-  .note {
-    background: rgba(251, 250, 246, 0.92);
-    border: 1px solid rgba(222, 219, 210, 0.85);
-    border-radius: 8px;
-    bottom: 1rem;
-    display: grid;
-    gap: 0.25rem;
-    left: 1rem;
-    max-width: calc(100% - 2rem);
-    padding: 0.9rem 1rem;
-    position: absolute;
-  }
-
-  .note span {
+  .intro-note {
+    border-left: 1px solid var(--line-strong);
     color: var(--muted);
+    padding-left: 1.5rem;
   }
 
-  .pill {
-    color: var(--blue);
+  .intro-note p {
+    margin-bottom: 1rem;
+  }
+
+  .split-section {
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: minmax(0, 0.72fr) minmax(280px, 1fr);
+  }
+
+  .stack-list {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .list-row {
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    padding-top: 1rem;
+  }
+
+  .list-row > span {
+    color: var(--accent);
     font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .life-section {
-    align-items: start;
-    border-bottom: 1px solid var(--line);
-    border-top: 1px solid var(--line);
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.7fr);
+  .list-row p {
+    color: var(--muted);
+    margin-bottom: 0;
   }
 
-  ul {
+  .life-list {
     display: grid;
-    gap: 0.8rem;
+    gap: 1rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  li {
-    background: var(--surface);
-    border-left: 4px solid var(--gold);
-    padding: 1rem;
+  .life-list li {
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    padding-top: 1rem;
+  }
+
+  .products-section {
+    padding-bottom: 2rem;
   }
 
   .section-heading {
-    align-items: end;
-    display: flex;
+    align-items: start;
+    display: grid;
     gap: 1rem;
-    justify-content: space-between;
+    grid-template-columns: minmax(0, 0.25fr) minmax(0, 1fr) auto;
     margin-bottom: 1.5rem;
   }
 
   @media (max-width: 900px) {
     .hero,
-    .life-section {
+    .split-section,
+    .section-heading {
       grid-template-columns: 1fr;
     }
 
@@ -162,13 +169,16 @@ import { academicHighlights, lifeHighlights, products, profile } from "../data/s
       min-height: auto;
     }
 
-    .hero-copy {
-      padding-bottom: 0;
+    .intro-note {
+      border-left: 0;
+      border-top: 1px solid var(--line-strong);
+      padding-left: 0;
+      padding-top: 1.25rem;
     }
 
-    .section-heading {
-      align-items: flex-start;
-      flex-direction: column;
+    .list-row {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
     }
   }
 </style>

@@ -20,7 +20,10 @@ const { product } = Astro.props;
         <h1>{product.name}</h1>
         <p class="lead">{product.tagline}</p>
       </div>
-      <img src={product.image} alt="" />
+      <aside class="product-status">
+        <span>Status</span>
+        <strong>{product.status}</strong>
+      </aside>
     </div>
 
     <section class="product-detail">
@@ -29,8 +32,8 @@ const { product } = Astro.props;
         <p>{product.audience}</p>
       </div>
       <div class="detail-block">
-        <p class="section-kicker">Status</p>
-        <p>{product.status}</p>
+        <p class="section-kicker">Shape</p>
+        <p>{product.eyebrow}</p>
       </div>
       <div class="detail-block wide">
         <h2>Problem</h2>
@@ -53,23 +56,36 @@ const { product } = Astro.props;
 <style>
   .product-page {
     margin: 0 auto;
-    max-width: 1180px;
+    max-width: 1040px;
     padding: 5rem 1.25rem;
   }
 
   .product-hero {
-    align-items: end;
+    align-items: start;
+    border-bottom: 1px solid var(--line);
     display: grid;
     gap: 2rem;
-    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    padding-bottom: 3rem;
   }
 
-  .product-hero img {
-    aspect-ratio: 4 / 3;
+  .product-status {
     border: 1px solid var(--line);
     border-radius: 8px;
-    object-fit: cover;
-    width: 100%;
+    display: grid;
+    gap: 0.3rem;
+    padding: 1rem;
+  }
+
+  .product-status span {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .product-status strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 500;
   }
 
   .product-detail {
@@ -81,7 +97,6 @@ const { product } = Astro.props;
   }
 
   .detail-block {
-    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
     padding: 1.25rem;

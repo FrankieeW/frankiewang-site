@@ -1,35 +1,55 @@
 export const profile = {
   name: "Frankie Wang",
-  title: "Mathematics, software, and product experiments",
+  title: "Mathematics, formal methods, and small software products",
   location: "London / Remote",
   email: "hello@frankiewang.dev",
   github: "https://github.com/FrankieeW",
   summary:
-    "I work across mathematics, formal methods, and thoughtful software products. This site collects research notes, personal writing, and small products in one place.",
+    "I work across mathematics, formal methods, and thoughtful software products. This site is a quiet index of research notes, writing, and experiments in progress.",
+  current:
+    "Currently focused on algebraic number theory, Lean formalization, and personal tools for durable study.",
 };
 
 export const academicHighlights = [
   {
-    label: "Research",
+    label: "01",
     title: "Algebra and formalization",
-    text: "Notes and experiments around algebraic number theory, Lean, and rigorous mathematical tooling.",
+    text: "Experiments around algebraic number theory, Lean, and rigorous mathematical tooling.",
   },
   {
-    label: "Writing",
+    label: "02",
     title: "Readable technical notes",
     text: "Long-form explanations that make hard ideas easier to revisit, share, and improve.",
   },
   {
-    label: "Teaching",
+    label: "03",
     title: "Study systems",
     text: "Reusable summaries, problem workflows, and reference material for focused learning.",
   },
 ];
 
+export const writing = [
+  {
+    title: "Notes on formal mathematical practice",
+    meta: "Essay draft",
+    text: "How proof assistants change the shape of reading, revising, and trusting mathematics.",
+  },
+  {
+    title: "A working notebook for algebraic number theory",
+    meta: "Living notes",
+    text: "Definitions, examples, and proof patterns collected for repeated use.",
+  },
+  {
+    title: "Designing small tools for serious study",
+    meta: "Product note",
+    text: "A practical look at software that supports attention instead of replacing it.",
+  },
+];
+
 export const lifeHighlights = [
-  "Cafe work sessions, city walks, and quiet routines.",
-  "Reading lists that mix mathematics, systems, design, and biography.",
-  "Small travel notes and photos from places worth remembering.",
+  "Cafe work sessions, city walks, and quiet routines in London.",
+  "Reading lists across mathematics, systems, design, biography, and literature.",
+  "Small travel notes and observations from places worth remembering.",
 ];
 
 export const products = [
@@ -45,8 +65,6 @@ export const products = [
     solution:
       "A compact study workflow with concept pages, proof attempts, review queues, and links back to source files.",
     features: ["Concept cards", "Proof attempt journal", "Review queue", "Reference links"],
-    image:
-      "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80",
   },
   {
     slug: "research-homebase",
@@ -60,8 +78,6 @@ export const products = [
     solution:
       "A lightweight hub that turns reading notes into linked questions, follow-ups, and publishable artifacts.",
     features: ["Paper queue", "Question tracker", "Note graph", "Weekly review"],
-    image:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1200&q=80",
   },
   {
     slug: "daily-proof",
@@ -75,7 +91,5 @@ export const products = [
     solution:
       "A daily queue that balances warmups, deeper problems, reflection, and spaced repetition.",
     features: ["Daily queue", "Energy-aware sessions", "Reflection prompts", "Progress archive"],
-    image:
-      "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=1200&q=80",
   },
 ];
