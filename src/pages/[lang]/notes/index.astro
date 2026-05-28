@@ -21,19 +21,23 @@ const content = site[locale];
   </section>
 
   <section>
-    <ul class="entry-list">
-      {content.notes.map((item) => (
-        <li>
-          <span class="entry-meta">{item.meta}</span>
-          <div>
-            <h3>
-              <a href={localePath(locale, `notes/${item.slug}/`)}>{item.title}</a>
-            </h3>
-            <p class="muted">{item.text}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
+    {content.notes.length === 0 ? (
+      <p class="muted todo">{content.notesPage.placeholder}</p>
+    ) : (
+      <ul class="entry-list">
+        {content.notes.map((item) => (
+          <li>
+            <span class="entry-meta">{item.meta}</span>
+            <div>
+              <h3>
+                <a href={localePath(locale, `notes/${item.slug}/`)}>{item.title}</a>
+              </h3>
+              <p class="muted">{item.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
   </section>
 </BaseLayout>
 
@@ -70,6 +74,11 @@ const content = site[locale];
 
   .entry-list p {
     margin-bottom: 0;
+  }
+
+  .todo {
+    font-style: italic;
+    margin: 0;
   }
 
   @media (max-width: 640px) {

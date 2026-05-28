@@ -22,16 +22,15 @@ const sharedProfile = {
   avatar: "/avatar.png",
 };
 
-const productSlugs = {
-  leanStudyKit: "lean-study-kit",
-  researchHomebase: "research-homebase",
-  dailyProof: "daily-proof",
-};
+export const projectCategories = ["academic", "software"] as const;
 
-const noteSlugs = {
-  leanFormalisation: "lean-formalisation",
-  classFieldTheory: "class-field-theory",
-  studyTools: "study-tools",
+export type ProjectCategory = (typeof projectCategories)[number];
+
+const projectLinks = {
+  quadraticNumberFields: "https://github.com/FrankieeW/QuadraticNumberFields",
+  lmfdbCli: "https://github.com/FrankieeW/lmfdb-cli",
+  feader: "https://github.com/FrankieeW/Feader",
+  agentSkills: "https://github.com/FrankieeW/agent-skills",
 };
 
 export const site = {
@@ -65,14 +64,15 @@ export const site = {
       },
       notes: {
         title: "Notes and writing",
-        intro: "Drafts, working notes, and longer essays. Most are still in progress.",
+        intro: "Drafts, working notes, and longer essays.",
+        placeholder: "TODO — notes and writing are coming soon.",
         all: "All notes →",
         readMore: "Read note →",
         draftNotice: "This note is still in progress.",
       },
       projects: {
         title: "Projects",
-        intro: "Small tools I build for my own study and research.",
+        intro: "Code I work on, split between academic formalisation and general software.",
         all: "All projects →",
       },
       contact: {
@@ -95,6 +95,7 @@ export const site = {
       heading: "Notes and writing",
       lead:
         "Drafts, working notes, and longer essays. Most are still in progress and will keep changing.",
+      placeholder: "TODO — notes and writing are coming soon.",
     },
     researchInterests: [
       {
@@ -146,80 +147,48 @@ export const site = {
         ],
       },
     ],
-    notes: [
-      {
-        slug: noteSlugs.leanFormalisation,
-        title: "Notes on formalising algebraic number theory in Lean",
-        meta: "Draft",
-        text: "What changes when definitions and proofs are written for a proof assistant.",
-      },
-      {
-        slug: noteSlugs.classFieldTheory,
-        title: "A working notebook on class field theory",
-        meta: "Notes",
-        text: "Definitions, examples, and proof patterns I keep returning to.",
-      },
-      {
-        slug: noteSlugs.studyTools,
-        title: "Small tools for mathematical study",
-        meta: "Essay",
-        text: "Why I build my own study and research software, and what I have learned.",
-      },
-    ],
-    productsPage: {
+    notes: [],
+    projectsPage: {
       title: "Projects",
-      description: "Projects and experiments by Feng-Cheng Frankie Wang.",
-      heading: "Projects and experiments",
+      description: "Code projects by Feng-Cheng Frankie Wang.",
+      heading: "Projects",
       lead:
-        "Small tools and project ideas around learning, research, and mathematical practice. Each one starts from a repeated friction in study or writing.",
+        "Code I work on, split between academic formalisation and general-purpose software. Each links out to its GitHub repository.",
     },
-    productLabels: {
-      status: "Status",
-      audience: "Audience",
-      shape: "Shape",
-      problem: "Problem",
-      solution: "Solution",
-      features: "Feature set",
+    projectCategoryLabels: {
+      academic: "Academic",
+      software: "Software",
     },
-    products: [
+    projects: [
       {
-        slug: productSlugs.leanStudyKit,
-        name: "Lean Study Kit",
-        eyebrow: "Learning tool",
-        tagline: "A structured workspace for turning theorem-proving notes into repeatable practice.",
-        status: "Prototype",
-        audience: "Students and researchers learning Lean and mathlib.",
-        problem:
-          "Dense formalization notes are hard to revisit because examples, tactics, references, and mistakes live in different places.",
-        solution:
-          "A compact study workflow with concept pages, proof attempts, review queues, and links back to source files.",
-        features: ["Concept cards", "Proof attempt journal", "Review queue", "Reference links"],
+        name: "QuadraticNumberFields",
+        category: "academic",
+        language: "Lean 4",
+        url: projectLinks.quadraticNumberFields,
+        description: "A formalisation of quadratic number fields in Lean 4.",
       },
       {
-        slug: productSlugs.researchHomebase,
-        name: "Research Homebase",
-        eyebrow: "Knowledge system",
-        tagline: "A personal research dashboard for papers, notes, tasks, and open questions.",
-        status: "Design",
-        audience: "Independent researchers managing many small threads of inquiry.",
-        problem:
-          "Research momentum gets lost when papers, partial notes, and next actions are scattered across tools.",
-        solution:
-          "A lightweight hub that turns reading notes into linked questions, follow-ups, and publishable artifacts.",
-        features: ["Paper queue", "Question tracker", "Note graph", "Weekly review"],
+        name: "lmfdb-cli",
+        category: "academic",
+        language: "Rust",
+        url: projectLinks.lmfdbCli,
+        description:
+          "A command-line tool for querying the LMFDB (L-functions and Modular Forms Database).",
       },
       {
-        slug: productSlugs.dailyProof,
-        name: "Daily Proof",
-        eyebrow: "Habit product",
-        tagline: "A calmer daily practice loop for math problem solving and proof writing.",
-        status: "Exploration",
-        audience: "People building durable mathematical taste and problem-solving discipline.",
-        problem:
-          "Mathematical practice is easiest to abandon when progress is invisible and exercises are not matched to energy.",
-        solution:
-          "A daily queue that balances warmups, deeper problems, reflection, and spaced repetition.",
-        features: ["Daily queue", "Energy-aware sessions", "Reflection prompts", "Progress archive"],
+        name: "Feader",
+        category: "software",
+        language: "Rust",
+        url: projectLinks.feader,
+        description:
+          "An AI-native, Web3-friendly RSS reader for fast-moving information streams across the open web.",
+      },
+      {
+        name: "agent-skills",
+        category: "software",
+        language: "Shell",
+        url: projectLinks.agentSkills,
+        description: "A collection of reusable agent skills for AI coding assistants.",
       },
     ],
   },
@@ -253,14 +222,15 @@ export const site = {
       },
       notes: {
         title: "笔记与写作",
-        intro: "草稿、长期笔记与文章，多数仍在推进中。",
+        intro: "草稿、长期笔记与文章。",
+        placeholder: "TODO —— 笔记与写作即将上线。",
         all: "全部笔记 →",
         readMore: "阅读笔记 →",
         draftNotice: "这篇笔记仍在推进中。",
       },
       projects: {
         title: "项目",
-        intro: "为自己的学习和研究写的小工具。",
+        intro: "我在做的代码项目，分为学术形式化和通用软件两类。",
         all: "全部项目 →",
       },
       contact: {
@@ -281,6 +251,7 @@ export const site = {
       description: "Feng-Cheng Frankie Wang 的笔记与写作。",
       heading: "笔记与写作",
       lead: "草稿、长期笔记和文章。大多仍在推进中，会不断更新。",
+      placeholder: "TODO —— 笔记与写作即将上线。",
     },
     researchInterests: [
       {
@@ -332,73 +303,45 @@ export const site = {
         ],
       },
     ],
-    notes: [
-      {
-        slug: noteSlugs.leanFormalisation,
-        title: "代数数论的形式化笔记",
-        meta: "草稿",
-        text: "为证明助手书写定义和证明时，数学实践会发生哪些变化。",
-      },
-      {
-        slug: noteSlugs.classFieldTheory,
-        title: "类域论工作笔记",
-        meta: "笔记",
-        text: "反复使用的定义、例子和证明模式。",
-      },
-      {
-        slug: noteSlugs.studyTools,
-        title: "为数学学习设计小工具",
-        meta: "随笔",
-        text: "为什么自己写学习和研究工具，以及从中学到的事。",
-      },
-    ],
-    productsPage: {
+    notes: [],
+    projectsPage: {
       title: "项目",
-      description: "Feng-Cheng Frankie Wang 的项目与实验。",
-      heading: "项目与实验",
-      lead: "围绕学习、研究和数学实践的小工具与项目想法。每个项目都来自学习或写作中反复出现的摩擦。",
+      description: "Feng-Cheng Frankie Wang 的代码项目。",
+      heading: "项目",
+      lead: "我在做的代码项目，分为学术形式化和通用软件两类。每个项目都链接到对应的 GitHub 仓库。",
     },
-    productLabels: {
-      status: "状态",
-      audience: "对象",
-      shape: "形式",
-      problem: "问题",
-      solution: "方案",
-      features: "功能",
+    projectCategoryLabels: {
+      academic: "学术",
+      software: "软件",
     },
-    products: [
+    projects: [
       {
-        slug: productSlugs.leanStudyKit,
-        name: "Lean Study Kit",
-        eyebrow: "学习工具",
-        tagline: "把定理证明笔记转化为可重复练习流程的结构化工作区。",
-        status: "原型",
-        audience: "正在学习 Lean 和 mathlib 的学生与研究者。",
-        problem: "形式化笔记往往分散在例子、策略、参考资料和错误记录之间，复习成本很高。",
-        solution: "用概念页、证明尝试、复习队列和源码链接组成一个紧凑的学习流程。",
-        features: ["概念卡片", "证明尝试日志", "复习队列", "参考链接"],
+        name: "QuadraticNumberFields",
+        category: "academic",
+        language: "Lean 4",
+        url: projectLinks.quadraticNumberFields,
+        description: "用 Lean 4 对二次数域进行形式化。",
       },
       {
-        slug: productSlugs.researchHomebase,
-        name: "Research Homebase",
-        eyebrow: "知识系统",
-        tagline: "用于整理论文、笔记、任务和开放问题的个人研究仪表盘。",
-        status: "设计中",
-        audience: "同时管理多条研究线索的独立研究者。",
-        problem: "论文、半成品笔记和下一步行动分散在不同工具里时，研究动量很容易丢失。",
-        solution: "把阅读笔记转化为相互链接的问题、后续任务和可发表材料。",
-        features: ["论文队列", "问题追踪", "笔记图谱", "每周回顾"],
+        name: "lmfdb-cli",
+        category: "academic",
+        language: "Rust",
+        url: projectLinks.lmfdbCli,
+        description: "查询 LMFDB（L-函数与模形式数据库）的命令行工具。",
       },
       {
-        slug: productSlugs.dailyProof,
-        name: "Daily Proof",
-        eyebrow: "习惯产品",
-        tagline: "一个更安静的日常数学练习和证明写作循环。",
-        status: "探索中",
-        audience: "希望长期培养数学品味和解题习惯的人。",
-        problem: "当进步不可见、题目又不匹配当天精力时，数学练习很容易中断。",
-        solution: "用每日队列平衡热身题、深入问题、反思和间隔复习。",
-        features: ["每日队列", "精力匹配练习", "反思提示", "进度归档"],
+        name: "Feader",
+        category: "software",
+        language: "Rust",
+        url: projectLinks.feader,
+        description: "面向开放网络快速信息流的 AI 原生、Web3 友好的 RSS 阅读器。",
+      },
+      {
+        name: "agent-skills",
+        category: "software",
+        language: "Shell",
+        url: projectLinks.agentSkills,
+        description: "面向 AI 编程助手的一组可复用 agent skills。",
       },
     ],
   },
@@ -432,14 +375,15 @@ export const site = {
       },
       notes: {
         title: "Notes et écrits",
-        intro: "Brouillons, notes de travail et essais. La plupart sont encore en cours.",
+        intro: "Brouillons, notes de travail et essais.",
+        placeholder: "TODO — notes et écrits à venir.",
         all: "Toutes les notes →",
         readMore: "Lire la note →",
         draftNotice: "Cette note est encore en cours.",
       },
       projects: {
         title: "Projets",
-        intro: "Petits outils que je construis pour mes propres études et recherches.",
+        intro: "Le code sur lequel je travaille, entre formalisation académique et logiciels généraux.",
         all: "Tous les projets →",
       },
       contact: {
@@ -462,6 +406,7 @@ export const site = {
       heading: "Notes et écrits",
       lead:
         "Brouillons, notes de travail et essais. La plupart sont en cours et continueront d'évoluer.",
+      placeholder: "TODO — notes et écrits à venir.",
     },
     researchInterests: [
       {
@@ -513,80 +458,48 @@ export const site = {
         ],
       },
     ],
-    notes: [
-      {
-        slug: noteSlugs.leanFormalisation,
-        title: "Notes sur la formalisation de la théorie algébrique des nombres",
-        meta: "Brouillon",
-        text: "Ce qui change lorsqu'on écrit définitions et preuves pour un assistant de preuve.",
-      },
-      {
-        slug: noteSlugs.classFieldTheory,
-        title: "Carnet de travail sur la théorie du corps de classes",
-        meta: "Notes",
-        text: "Définitions, exemples et schémas de preuve que je réutilise souvent.",
-      },
-      {
-        slug: noteSlugs.studyTools,
-        title: "Petits outils pour l'étude mathématique",
-        meta: "Essai",
-        text: "Pourquoi j'écris mes propres outils d'étude et de recherche, et ce que j'en apprends.",
-      },
-    ],
-    productsPage: {
+    notes: [],
+    projectsPage: {
       title: "Projets",
-      description: "Projets et expériences de Feng-Cheng Frankie Wang.",
-      heading: "Projets et expériences",
+      description: "Projets de code de Feng-Cheng Frankie Wang.",
+      heading: "Projets",
       lead:
-        "Petits outils et idées de projets autour de l'apprentissage, de la recherche et de la pratique mathématique.",
+        "Le code sur lequel je travaille, entre formalisation académique et logiciels généraux. Chacun renvoie à son dépôt GitHub.",
     },
-    productLabels: {
-      status: "Statut",
-      audience: "Public",
-      shape: "Forme",
-      problem: "Problème",
-      solution: "Solution",
-      features: "Fonctions",
+    projectCategoryLabels: {
+      academic: "Académique",
+      software: "Logiciel",
     },
-    products: [
+    projects: [
       {
-        slug: productSlugs.leanStudyKit,
-        name: "Lean Study Kit",
-        eyebrow: "Outil d'apprentissage",
-        tagline: "Un espace structuré pour transformer des notes de preuve en pratique répétable.",
-        status: "Prototype",
-        audience: "Étudiants et chercheurs qui apprennent Lean et mathlib.",
-        problem:
-          "Les notes de formalisation sont difficiles à revisiter quand exemples, tactiques, références et erreurs sont dispersés.",
-        solution:
-          "Un flux de travail compact avec pages de concepts, essais de preuve, révisions et liens vers les sources.",
-        features: ["Cartes de concepts", "Journal de preuve", "File de révision", "Liens de référence"],
+        name: "QuadraticNumberFields",
+        category: "academic",
+        language: "Lean 4",
+        url: projectLinks.quadraticNumberFields,
+        description: "Une formalisation des corps quadratiques en Lean 4.",
       },
       {
-        slug: productSlugs.researchHomebase,
-        name: "Research Homebase",
-        eyebrow: "Système de connaissance",
-        tagline: "Un tableau de bord personnel pour papiers, notes, tâches et questions ouvertes.",
-        status: "Design",
-        audience: "Chercheurs indépendants qui suivent plusieurs fils de recherche.",
-        problem:
-          "L'élan de recherche se perd quand papiers, notes partielles et prochaines actions sont dispersés.",
-        solution:
-          "Un hub léger qui transforme les notes de lecture en questions, suivis et textes publiables.",
-        features: ["File de papiers", "Suivi des questions", "Graphe de notes", "Revue hebdomadaire"],
+        name: "lmfdb-cli",
+        category: "academic",
+        language: "Rust",
+        url: projectLinks.lmfdbCli,
+        description:
+          "Un outil en ligne de commande pour interroger la LMFDB (base de données des fonctions L et des formes modulaires).",
       },
       {
-        slug: productSlugs.dailyProof,
-        name: "Daily Proof",
-        eyebrow: "Produit d'habitude",
-        tagline: "Une boucle quotidienne plus calme pour les problèmes et l'écriture de preuves.",
-        status: "Exploration",
-        audience: "Personnes qui veulent construire une pratique mathématique durable.",
-        problem:
-          "La pratique mathématique s'interrompt facilement quand le progrès est invisible et les exercices mal calibrés.",
-        solution:
-          "Une file quotidienne qui équilibre échauffement, problèmes profonds, réflexion et répétition espacée.",
-        features: ["File quotidienne", "Sessions adaptées à l'énergie", "Prompts de réflexion", "Archive des progrès"],
+        name: "Feader",
+        category: "software",
+        language: "Rust",
+        url: projectLinks.feader,
+        description:
+          "Un lecteur RSS IA-natif et compatible Web3 pour les flux d'information du web ouvert.",
+      },
+      {
+        name: "agent-skills",
+        category: "software",
+        language: "Shell",
+        url: projectLinks.agentSkills,
+        description: "Un ensemble de compétences d'agent réutilisables pour les assistants de code IA.",
       },
     ],
   },

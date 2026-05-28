@@ -1,0 +1,48 @@
+---
+interface Project {
+  name: string;
+  language: string;
+  url: string;
+  description: string;
+}
+
+const { project } = Astro.props as { project: Project };
+---
+
+<article class="project-card">
+  <a href={project.url} target="_blank" rel="noopener noreferrer">
+    <h3>{project.name}</h3>
+    <p class="project-meta muted">{project.language} · GitHub ↗</p>
+    <p class="muted">{project.description}</p>
+  </a>
+</article>
+
+<style>
+  .project-card a {
+    color: inherit;
+    display: block;
+  }
+
+  .project-card a:hover {
+    text-decoration: none;
+  }
+
+  .project-card a:hover h3 {
+    color: var(--link);
+  }
+
+  h3 {
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+
+  .project-meta {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+</style>

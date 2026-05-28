@@ -1,7 +1,7 @@
 ---
-import ProductCard from "../../../components/ProductCard.astro";
+import ProjectCard from "../../../components/ProjectCard.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getLocale, locales, site } from "../../../data/site";
+import { getLocale, locales, projectCategories, site } from "../../../data/site";
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -9,24 +9,38 @@ export function getStaticPaths() {
 
 const locale = getLocale(Astro.params.lang);
 const content = site[locale];
+
+const groups = projectCategories
+  .map((category) => ({
+    category,
+    label: content.projectCategoryLabels[category],
+    items: content.projects.filter((project) => project.category === category),
+  }))
+  .filter((group) => group.items.length > 0);
 ---
 
 <BaseLayout
   locale={locale}
-  title={content.productsPage.title}
-  description={content.productsPage.description}
+  title={content.projectsPage.title}
+  description={content.projectsPage.description}
 >
   <section>
-    <h1>{content.productsPage.heading}</h1>
-    <p class="muted">{content.productsPage.lead}</p>
-    <div class="grid three product-grid">
-      {content.products.map((product) => <ProductCard locale={locale} product={product} />)}
-    </div>
+    <h1>{content.projectsPage.heading}</h1>
+    <p class="muted">{content.projectsPage.lead}</p>
   </section>
+
+  {groups.map((group) => (
+    <section>
+      <h2>{group.label}</h2>
+      <div class="grid three project-grid">
+        {group.items.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+  ))}
 </BaseLayout>
 
 <style>
-  .product-grid {
-    margin-top: 1.5rem;
+  .project-grid {
+    margin-top: 1rem;
   }
 </style>
