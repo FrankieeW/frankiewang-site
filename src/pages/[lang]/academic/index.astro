@@ -6,8 +6,24 @@ export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
 }
 
+type EducationTrack = {
+  school: string;
+  programme: string;
+  result: string;
+};
+
+type EducationItem = {
+  period: string;
+  degree: string;
+  institution: string;
+  note?: string;
+  courses?: readonly string[];
+  tracks?: readonly EducationTrack[];
+};
+
 const locale = getLocale(Astro.params.lang);
 const content = site[locale];
+const education = content.education as readonly EducationItem[];
 ---
 
 <BaseLayout
@@ -32,13 +48,31 @@ const content = site[locale];
   <section>
     <h2>{content.sections.academic.educationTitle}</h2>
     <ul class="education-list">
-      {content.education.map((item) => (
+      {education.map((item) => (
         <li>
           <span class="period">{item.period}</span>
           <div>
             <h3>{item.degree}</h3>
             <p class="institution">{item.institution}</p>
-            <p class="muted">{item.note}</p>
+            {item.note && <p class="muted">{item.note}</p>}
+            {item.tracks && (
+              <ul class="track-list">
+                {item.tracks.map((track) => (
+                  <li>
+                    <strong>{track.school}</strong> — {track.programme}.
+                    <span class="muted"> {track.result}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {item.courses && (
+              <div class="courses">
+                <p class="courses-label">{content.sections.academic.currentCoursesTitle}</p>
+                <ul class="course-list">
+                  {item.courses.map((course) => <li>{course}</li>)}
+                </ul>
+              </div>
+            )}
           </div>
         </li>
       ))}
@@ -47,7 +81,9 @@ const content = site[locale];
 </BaseLayout>
 
 <style>
-  .topic-list {
+  .topic-list,
+  .track-list,
+  .course-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -59,13 +95,13 @@ const content = site[locale];
 
   .education-list {
     display: grid;
-    gap: 1.4rem;
+    gap: 1.6rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .education-list li {
+  .education-list > li {
     display: grid;
     gap: 0.2rem;
     grid-template-columns: 7rem minmax(0, 1fr);
@@ -86,9 +122,51 @@ const content = site[locale];
     margin-bottom: 0.2rem;
   }
 
+  .track-list {
+    margin: 0.4rem 0 0;
+  }
+
+  .track-list li {
+    margin-bottom: 0.25rem;
+  }
+
+  .courses {
+    margin-top: 0.8rem;
+  }
+
+  .courses-label {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    margin: 0 0 0.35rem;
+  }
+
+  .course-list {
+    column-count: 2;
+    column-gap: 1.5rem;
+    font-size: 0.97rem;
+  }
+
+  .course-list li {
+    break-inside: avoid;
+    padding: 0.05rem 0;
+  }
+
+  .course-list li::before {
+    color: var(--muted);
+    content: "·";
+    display: inline-block;
+    margin-right: 0.45rem;
+  }
+
   @media (max-width: 640px) {
-    .education-list li {
+    .education-list > li {
       grid-template-columns: 1fr;
+    }
+
+    .course-list {
+      column-count: 1;
     }
   }
 </style>
