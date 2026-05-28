@@ -1,5 +1,6 @@
 ---
 import ProjectCard from "../../components/ProjectCard.astro";
+import ResourceCard from "../../components/ResourceCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getLocale, localePath, locales, projectCategories, site } from "../../data/site";
 
@@ -55,12 +56,29 @@ const projectGroups = projectCategories
     </p>
   </section>
 
-  <section id="notes">
-    <h2>{content.sections.notes.title}</h2>
-    <p class="muted">{content.sections.notes.intro}</p>
-    <p class="muted todo">{content.sections.notes.placeholder}</p>
+  <section id="blog">
+    <h2>{content.sections.blog.title}</h2>
+    <p class="muted">{content.sections.blog.intro}</p>
+    <p class="muted todo">{content.sections.blog.placeholder}</p>
     <p class="more-link">
-      <a href={localePath(locale, "notes/")}>{content.sections.notes.all}</a>
+      <a href={localePath(locale, "blog/")}>{content.sections.blog.all}</a>
+    </p>
+  </section>
+
+  <section id="resources">
+    <h2>{content.sections.resources.title}</h2>
+    <p class="muted">{content.sections.resources.intro}</p>
+    <div class="grid three resource-grid">
+      {content.resources.map((resource) => (
+        <ResourceCard
+          locale={locale}
+          resource={resource}
+          todoLabel={content.resourcesPage.todoLabel}
+        />
+      ))}
+    </div>
+    <p class="more-link">
+      <a href={localePath(locale, "resources/")}>{content.sections.resources.all}</a>
     </p>
   </section>
 
@@ -177,6 +195,10 @@ const projectGroups = projectCategories
 
   .todo {
     font-style: italic;
+  }
+
+  .resource-grid {
+    margin-top: 1rem;
   }
 
   .project-group + .project-group {

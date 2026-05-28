@@ -1,0 +1,38 @@
+---
+import ResourceCard from "../../../components/ResourceCard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, locales, site } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={content.resourcesPage.title}
+  description={content.resourcesPage.description}
+>
+  <section>
+    <h1>{content.resourcesPage.heading}</h1>
+    <p class="muted">{content.resourcesPage.lead}</p>
+    <div class="grid three resource-grid">
+      {content.resources.map((resource) => (
+        <ResourceCard
+          locale={locale}
+          resource={resource}
+          todoLabel={content.resourcesPage.todoLabel}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .resource-grid {
+    margin-top: 1.5rem;
+  }
+</style>

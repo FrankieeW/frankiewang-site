@@ -33,12 +33,17 @@ const projectLinks = {
   agentSkills: "https://github.com/FrankieeW/agent-skills",
 };
 
+const resourceLinks = {
+  dutLetter: "https://github.com/FrankieeW/DUT-letter-latex",
+};
+
 export const site = {
   en: {
     htmlLang: "en",
     nav: {
       academic: "Academic",
-      notes: "Notes",
+      blog: "Blog",
+      resources: "Resources",
       projects: "Projects",
       contact: "Contact",
     },
@@ -70,6 +75,17 @@ export const site = {
         readMore: "Read note →",
         draftNotice: "This note is still in progress.",
       },
+      resources: {
+        title: "Resources",
+        intro: "Notes, CV, reading, and templates — collected in one place.",
+        all: "All resources →",
+      },
+      blog: {
+        title: "Blog",
+        intro: "Longer posts on mathematics, formalisation, and the tools I build.",
+        placeholder: "TODO — the blog is coming soon.",
+        all: "All posts →",
+      },
       projects: {
         title: "Projects",
         intro: "Code I work on, split between academic formalisation and general software.",
@@ -97,6 +113,57 @@ export const site = {
         "Drafts, working notes, and longer essays. Most are still in progress and will keep changing.",
       placeholder: "TODO — notes and writing are coming soon.",
     },
+    blogPage: {
+      title: "Blog",
+      description: "Blog posts by Feng-Cheng Frankie Wang.",
+      heading: "Blog",
+      lead: "Longer posts on mathematics, formalisation, and the tools I build.",
+      placeholder: "TODO — the blog is coming soon.",
+    },
+    resourcesPage: {
+      title: "Resources",
+      description: "Notes, CV, reading lists, and templates by Feng-Cheng Frankie Wang.",
+      heading: "Resources",
+      lead: "Notes, CV, reading, and templates — collected in one place. Most are still in progress.",
+      todoLabel: "Coming soon",
+    },
+    contactPage: {
+      title: "Contact",
+      description: "How to reach Feng-Cheng Frankie Wang.",
+      heading: "Contact",
+      lead: "The best way to reach me is by email. You can also find me on the platforms below.",
+      socialsTitle: "Elsewhere",
+      socialPlaceholder: "TODO — more social links coming soon.",
+    },
+    resources: [
+      {
+        name: "Notes",
+        description: "Working notes and writing on algebra, number theory, and formalisation.",
+        todo: true,
+        to: "notes/",
+      },
+      {
+        name: "CV",
+        description: "Academic CV and short biography.",
+        todo: true,
+      },
+      {
+        name: "Reading list",
+        description: "Mathematics books and papers I am reading or recommend.",
+        todo: true,
+      },
+      {
+        name: "Lecture notes",
+        description: "Typed notes from Imperial courses, in LaTeX.",
+        todo: true,
+      },
+      {
+        name: "DUT recommendation letter template",
+        description: "A LaTeX template for Dalian University of Technology recommendation letters.",
+        url: resourceLinks.dutLetter,
+      },
+    ],
+    posts: [],
     researchInterests: [
       {
         title: "Algebraic number theory",
@@ -196,7 +263,8 @@ export const site = {
     htmlLang: "zh-CN",
     nav: {
       academic: "学术",
-      notes: "笔记",
+      blog: "博客",
+      resources: "资源",
       projects: "项目",
       contact: "联系",
     },
@@ -228,6 +296,17 @@ export const site = {
         readMore: "阅读笔记 →",
         draftNotice: "这篇笔记仍在推进中。",
       },
+      resources: {
+        title: "资源",
+        intro: "笔记、简历、阅读清单和模板，集中收录在一处。",
+        all: "全部资源 →",
+      },
+      blog: {
+        title: "博客",
+        intro: "关于数学、形式化以及我所做工具的长文。",
+        placeholder: "TODO —— 博客即将上线。",
+        all: "全部文章 →",
+      },
       projects: {
         title: "项目",
         intro: "我在做的代码项目，分为学术形式化和通用软件两类。",
@@ -253,6 +332,57 @@ export const site = {
       lead: "草稿、长期笔记和文章。大多仍在推进中，会不断更新。",
       placeholder: "TODO —— 笔记与写作即将上线。",
     },
+    blogPage: {
+      title: "博客",
+      description: "Feng-Cheng Frankie Wang 的博客文章。",
+      heading: "博客",
+      lead: "关于数学、形式化以及我所做工具的长文。",
+      placeholder: "TODO —— 博客即将上线。",
+    },
+    resourcesPage: {
+      title: "资源",
+      description: "Feng-Cheng Frankie Wang 的笔记、简历、阅读清单和模板。",
+      heading: "资源",
+      lead: "笔记、简历、阅读清单和模板，集中收录在一处。大多仍在推进中。",
+      todoLabel: "即将上线",
+    },
+    contactPage: {
+      title: "联系",
+      description: "如何联系 Feng-Cheng Frankie Wang。",
+      heading: "联系",
+      lead: "最方便的联系方式是邮件。你也可以在下面的平台上找到我。",
+      socialsTitle: "其他平台",
+      socialPlaceholder: "TODO —— 更多社交链接即将补充。",
+    },
+    resources: [
+      {
+        name: "笔记",
+        description: "关于代数、数论与形式化的工作笔记与写作。",
+        todo: true,
+        to: "notes/",
+      },
+      {
+        name: "简历",
+        description: "学术简历与简短介绍。",
+        todo: true,
+      },
+      {
+        name: "阅读清单",
+        description: "我正在读或推荐的数学书籍与论文。",
+        todo: true,
+      },
+      {
+        name: "讲义",
+        description: "Imperial 课程的 LaTeX 讲义。",
+        todo: true,
+      },
+      {
+        name: "大工推荐信模板",
+        description: "大连理工大学推荐信的 LaTeX 模板。",
+        url: resourceLinks.dutLetter,
+      },
+    ],
+    posts: [],
     researchInterests: [
       {
         title: "代数数论",
@@ -349,7 +479,8 @@ export const site = {
     htmlLang: "fr",
     nav: {
       academic: "Académique",
-      notes: "Notes",
+      blog: "Blog",
+      resources: "Ressources",
       projects: "Projets",
       contact: "Contact",
     },
@@ -381,6 +512,17 @@ export const site = {
         readMore: "Lire la note →",
         draftNotice: "Cette note est encore en cours.",
       },
+      resources: {
+        title: "Ressources",
+        intro: "Notes, CV, lectures et modèles — rassemblés au même endroit.",
+        all: "Toutes les ressources →",
+      },
+      blog: {
+        title: "Blog",
+        intro: "Articles plus longs sur les mathématiques, la formalisation et mes outils.",
+        placeholder: "TODO — le blog arrive bientôt.",
+        all: "Tous les articles →",
+      },
       projects: {
         title: "Projets",
         intro: "Le code sur lequel je travaille, entre formalisation académique et logiciels généraux.",
@@ -408,6 +550,59 @@ export const site = {
         "Brouillons, notes de travail et essais. La plupart sont en cours et continueront d'évoluer.",
       placeholder: "TODO — notes et écrits à venir.",
     },
+    blogPage: {
+      title: "Blog",
+      description: "Articles de blog de Feng-Cheng Frankie Wang.",
+      heading: "Blog",
+      lead: "Articles plus longs sur les mathématiques, la formalisation et mes outils.",
+      placeholder: "TODO — le blog arrive bientôt.",
+    },
+    resourcesPage: {
+      title: "Ressources",
+      description: "Notes, CV, listes de lecture et modèles de Feng-Cheng Frankie Wang.",
+      heading: "Ressources",
+      lead:
+        "Notes, CV, lectures et modèles — rassemblés au même endroit. La plupart sont encore en cours.",
+      todoLabel: "Bientôt disponible",
+    },
+    contactPage: {
+      title: "Contact",
+      description: "Comment joindre Feng-Cheng Frankie Wang.",
+      heading: "Contact",
+      lead:
+        "Le mieux est de m'écrire par e-mail. Vous pouvez aussi me trouver sur les plateformes ci-dessous.",
+      socialsTitle: "Ailleurs",
+      socialPlaceholder: "TODO — d'autres liens sociaux à venir.",
+    },
+    resources: [
+      {
+        name: "Notes",
+        description: "Notes de travail et écrits sur l'algèbre, la théorie des nombres et la formalisation.",
+        todo: true,
+        to: "notes/",
+      },
+      {
+        name: "CV",
+        description: "CV académique et courte biographie.",
+        todo: true,
+      },
+      {
+        name: "Liste de lecture",
+        description: "Livres et articles de mathématiques que je lis ou recommande.",
+        todo: true,
+      },
+      {
+        name: "Notes de cours",
+        description: "Notes des cours d'Imperial, en LaTeX.",
+        todo: true,
+      },
+      {
+        name: "Modèle de lettre de recommandation DUT",
+        description: "Un modèle LaTeX pour les lettres de recommandation de Dalian University of Technology.",
+        url: resourceLinks.dutLetter,
+      },
+    ],
+    posts: [],
     researchInterests: [
       {
         title: "Théorie algébrique des nombres",
