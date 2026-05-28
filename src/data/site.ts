@@ -40,7 +40,7 @@ const resourceLinks = {
 export const socials = [
   { platform: "Instagram", handle: "@frankiefcw", url: "https://instagram.com/frankiefcw" },
   { platform: "X", handle: "@frankieFCW", url: "https://x.com/frankieFCW" },
-  { platform: "Weibo", handle: "frankie-wang", url: "https://weibo.com/frankie-wang" },
+  { platform: "Weibo", handle: "frankie-wang", url: "https://weibo.com/6454870343" },
 ] as const;
 
 export const site = {
