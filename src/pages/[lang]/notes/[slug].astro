@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, localePath, locales, site } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) =>
+    site[lang].notes.map((note) => ({
+      params: { lang, slug: note.slug },
+      props: { note },
+    })),
+  );
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+const { note } = Astro.props;
+---
+
+<BaseLayout locale={locale} title={note.title} description={note.text}>
+  <article>
+    <section>
+      <p class="back">
+        <a href={localePath(locale, "notes/")}>← {content.notesPage.title}</a>
+      </p>
+      <p class="role muted">{note.meta}</p>
+      <h1>{note.title}</h1>
+      <p class="lead">{note.text}</p>
+    </section>
+
+    <section>
+      <p class="muted draft">{content.sections.notes.draftNotice}</p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .back {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .role {
+    margin-bottom: 0.5rem;
+  }
+
+  .draft {
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, localePath, locales, site } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={content.notesPage.title}
+  description={content.notesPage.description}
+>
+  <section>
+    <h1>{content.notesPage.heading}</h1>
+    <p class="muted">{content.notesPage.lead}</p>
+  </section>
+
+  <section>
+    <ul class="entry-list">
+      {content.notes.map((item) => (
+        <li>
+          <span class="entry-meta">{item.meta}</span>
+          <div>
+            <h3>
+              <a href={localePath(locale, `notes/${item.slug}/`)}>{item.title}</a>
+            </h3>
+            <p class="muted">{item.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .entry-list {
+    display: grid;
+    gap: 1.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entry-list li {
+    display: grid;
+    gap: 0.15rem;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+  }
+
+  .entry-meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    padding-top: 0.15rem;
+  }
+
+  .entry-list h3 a {
+    color: inherit;
+  }
+
+  .entry-list h3 a:hover {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  .entry-list p {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .entry-list li {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

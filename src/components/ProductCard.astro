@@ -1,56 +1,48 @@
 ---
+import { localePath, type Locale } from "../data/site";
+
 interface Product {
   slug: string;
   name: string;
   eyebrow: string;
   tagline: string;
   status: string;
-  image: string;
 }
 
-const { product } = Astro.props as { product: Product };
+const { locale, product } = Astro.props as { locale: Locale; product: Product };
 ---
 
-<article class="card product-card">
-  <a href={`/products/${product.slug}/`} aria-label={`Open ${product.name}`}>
-    <img src={product.image} alt="" loading="lazy" />
-    <div class="card-body">
-      <div class="product-meta">
-        <span>{product.eyebrow}</span>
-        <span>{product.status}</span>
-      </div>
-      <h3>{product.name}</h3>
-      <p class="muted">{product.tagline}</p>
-    </div>
+<article class="product-card">
+  <a href={localePath(locale, `products/${product.slug}/`)}>
+    <h3>{product.name}</h3>
+    <p class="product-meta muted">{product.eyebrow} · {product.status}</p>
+    <p class="muted">{product.tagline}</p>
   </a>
 </article>
 
 <style>
   .product-card a {
+    color: inherit;
     display: block;
-    height: 100%;
   }
 
-  img {
-    aspect-ratio: 16 / 10;
-    height: auto;
-    object-fit: cover;
-    width: 100%;
+  .product-card a:hover {
+    text-decoration: none;
   }
 
-  .product-meta {
-    color: var(--brick);
-    display: flex;
-    font-size: 0.78rem;
-    font-weight: 800;
-    justify-content: space-between;
-    letter-spacing: 0.06em;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
+  .product-card a:hover h3 {
+    color: var(--link);
   }
 
   h3 {
-    margin-bottom: 0.55rem;
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+
+  .product-meta {
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
   }
 
   p {
