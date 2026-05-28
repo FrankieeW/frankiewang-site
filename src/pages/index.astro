@@ -1,30 +1,54 @@
 ---
 import ProductCard from "../components/ProductCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { academicHighlights, lifeHighlights, products, profile, writing } from "../data/site";
+import {
+  academicHighlights,
+  indexLinks,
+  lifeHighlights,
+  products,
+  profile,
+  writing,
+} from "../data/site";
 ---
 
 <BaseLayout title={profile.name} description={profile.summary}>
   <section class="hero">
     <div>
-      <p class="section-kicker">Academic / Life / Products</p>
+      <p class="section-kicker">Pure Mathematics</p>
       <h1>{profile.name}</h1>
       <p class="lead">{profile.title}</p>
     </div>
     <aside class="intro-note" aria-label="Current focus">
       <p>{profile.summary}</p>
       <p>{profile.current}</p>
-      <div class="button-row">
-        <a class="button" href="#research">Research</a>
-        <a class="button secondary" href="/products">Products</a>
-      </div>
+      <dl class="affiliation-list">
+        <div>
+          <dt>Programme</dt>
+          <dd>MSc Pure Mathematics</dd>
+        </div>
+        <div>
+          <dt>Department</dt>
+          <dd><a href={profile.departmentUrl}>{profile.department}</a></dd>
+        </div>
+        <div>
+          <dt>Research group</dt>
+          <dd><a href={profile.groupUrl}>Pure Mathematics</a></dd>
+        </div>
+      </dl>
     </aside>
+  </section>
+
+  <section class="index-panel" aria-label="Site index">
+    <p class="section-kicker">Index</p>
+    <nav class="index-links" aria-label="Section links">
+      {indexLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
   </section>
 
   <section id="research" class="split-section">
     <div>
       <p class="section-kicker">Research</p>
-      <h2>Research notes, formalization, and learning systems.</h2>
+      <h2>Research interests, formalization, and mathematical notes.</h2>
     </div>
     <div class="stack-list">
       {academicHighlights.map((item) => (
@@ -69,9 +93,9 @@ import { academicHighlights, lifeHighlights, products, profile, writing } from "
 
   <section class="products-section">
     <div class="section-heading">
-      <p class="section-kicker">Products</p>
-      <h2>Small products in progress.</h2>
-      <a class="button secondary" href="/products">All products</a>
+      <p class="section-kicker">Projects</p>
+      <h2>Small tools and projects in progress.</h2>
+      <a class="button secondary" href="/products">All projects</a>
     </div>
     <div class="grid three">
       {products.map((product) => <ProductCard product={product} />)}
@@ -98,6 +122,65 @@ import { academicHighlights, lifeHighlights, products, profile, writing } from "
 
   .intro-note p {
     margin-bottom: 1rem;
+  }
+
+  .affiliation-list {
+    border-top: 2px solid var(--imperial-blue);
+    display: grid;
+    gap: 0;
+    margin: 1.4rem 0 0;
+  }
+
+  .affiliation-list div {
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 0.4rem;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    padding: 0.75rem 0;
+  }
+
+  dt {
+    color: var(--accent);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  dd a {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .index-panel {
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    padding-bottom: 2.25rem;
+    padding-top: 2.25rem;
+  }
+
+  .index-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .index-links a {
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.92rem;
+    min-height: 2.35rem;
+    padding: 0.52rem 0.85rem;
+  }
+
+  .index-links a:hover {
+    border-color: var(--imperial-blue);
+    color: var(--imperial-blue);
   }
 
   .split-section {
@@ -179,6 +262,11 @@ import { academicHighlights, lifeHighlights, products, profile, writing } from "
     .list-row {
       grid-template-columns: 1fr;
       gap: 0.4rem;
+    }
+
+    .index-panel,
+    .affiliation-list div {
+      grid-template-columns: 1fr;
     }
   }
 </style>

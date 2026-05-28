@@ -1,20 +1,34 @@
 export const profile = {
-  name: "Frankie Wang",
-  title: "Mathematics, formal methods, and small software products",
-  location: "London / Remote",
+  name: "Feng-Cheng Frankie Wang",
+  title: "MSc Pure Mathematics Student at Imperial College London",
+  location: "London",
+  institution: "Imperial College London",
+  department: "Department of Mathematics",
+  departmentUrl: "https://www.imperial.ac.uk/mathematics/",
+  groupUrl: "https://www.imperial.ac.uk/pure-mathematics/",
   email: "hello@frankiewang.dev",
   github: "https://github.com/FrankieeW",
   summary:
-    "I work across mathematics, formal methods, and thoughtful software products. This site is a quiet index of research notes, writing, and experiments in progress.",
+    "Interested in algebra, number theory, formalized mathematics, and mathematical physics.",
   current:
-    "Currently focused on algebraic number theory, Lean formalization, and personal tools for durable study.",
+    "I use this site as a quiet index for notes, projects, and writing in progress.",
 };
+
+export const indexLinks = [
+  { label: "Research", href: "#research" },
+  { label: "Projects", href: "/products" },
+  { label: "Publications", href: "#research" },
+  { label: "Notes", href: "#writing" },
+  { label: "Blog", href: "#writing" },
+  { label: "CV", href: "#" },
+  { label: "GitHub", href: "https://github.com/FrankieeW" },
+];
 
 export const academicHighlights = [
   {
     label: "01",
     title: "Algebra and formalization",
-    text: "Experiments around algebraic number theory, Lean, and rigorous mathematical tooling.",
+    text: "Notes and experiments around algebraic number theory, Lean, and rigorous mathematical tooling.",
   },
   {
     label: "02",
@@ -23,8 +37,8 @@ export const academicHighlights = [
   },
   {
     label: "03",
-    title: "Study systems",
-    text: "Reusable summaries, problem workflows, and reference material for focused learning.",
+    title: "Mathematical physics",
+    text: "A developing interest in the mathematical structures behind physical theories.",
   },
 ];
 
@@ -41,7 +55,7 @@ export const writing = [
   },
   {
     title: "Designing small tools for serious study",
-    meta: "Product note",
+    meta: "Project note",
     text: "A practical look at software that supports attention instead of replacing it.",
   },
 ];

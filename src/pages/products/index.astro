@@ -4,12 +4,12 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { products } from "../../data/site";
 ---
 
-<BaseLayout title="Products" description="Product experiments by Frankie Wang.">
+<BaseLayout title="Projects" description="Projects and experiments by Feng-Cheng Frankie Wang.">
   <div class="page-shell">
-    <p class="section-kicker">Products</p>
-    <h1>Product experiments.</h1>
+    <p class="section-kicker">Projects</p>
+    <h1>Projects and experiments.</h1>
     <p class="lead">
-      Small tools and product ideas around learning, research, and mathematical practice. Each one starts from a repeated friction in study or writing.
+      Small tools and project ideas around learning, research, and mathematical practice. Each one starts from a repeated friction in study or writing.
     </p>
     <div class="grid three product-grid">
       {products.map((product) => <ProductCard product={product} />)}
