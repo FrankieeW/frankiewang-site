@@ -128,7 +128,7 @@ export const site = {
         ],
       },
       {
-        period: "2022 – 2025",
+        period: "2021 – 2025",
         degree: "BSc Mathematics, Dual Degree Programme",
         institution: "University of Leicester & Dalian University of Technology",
         tracks: [
@@ -313,7 +313,7 @@ export const site = {
         ],
       },
       {
-        period: "2022 – 2025",
+        period: "2021 – 2025",
         degree: "数学本科（中外联合培养双学位）",
         institution: "University of Leicester & 大连理工大学",
         tracks: [
@@ -493,7 +493,7 @@ export const site = {
         ],
       },
       {
-        period: "2022 – 2025",
+        period: "2021 – 2025",
         degree: "BSc Mathematics (programme de double diplôme)",
         institution: "University of Leicester & Dalian University of Technology",
         tracks: [
