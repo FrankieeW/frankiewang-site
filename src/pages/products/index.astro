@@ -1,0 +1,24 @@
+---
+import ProductCard from "../../components/ProductCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { products } from "../../data/site";
+---
+
+<BaseLayout title="Products" description="Product experiments by Frankie Wang.">
+  <div class="page-shell">
+    <p class="section-kicker">Products</p>
+    <h1>Product experiments.</h1>
+    <p class="lead">
+      A collection of small tools and product ideas around learning, research, and mathematical practice.
+    </p>
+    <div class="grid three product-grid">
+      {products.map((product) => <ProductCard product={product} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .product-grid {
+    margin-top: 2rem;
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "name": "frankiewang",
+  "version": "1.0.0",
+  "description": "Personal academic, life, and product homepage built with Astro.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "keywords": [
+    "astro",
+    "personal-site",
+    "vercel"
+  ],
+  "author": "Frankie Wang",
+  "license": "MIT",
+  "dependencies": {
+    "astro": "^6.4.2"
+  }
+}
