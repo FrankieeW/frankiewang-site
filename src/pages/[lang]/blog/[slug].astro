@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getLocale, localePath, locales, site } from "../../../data/site";
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) =>
+    site[lang].posts.map((post) => ({
+      params: { lang, slug: post.slug },
+      props: { post },
+    })),
+  );
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+const { post } = Astro.props;
+---
+
+<BaseLayout locale={locale} title={post.title} description={post.text}>
+  <article>
+    <section>
+      <p class="back">
+        <a href={localePath(locale, "blog/")}>← {content.blogPage.title}</a>
+      </p>
+      <p class="role muted">{post.meta}</p>
+      <h1>{post.title}</h1>
+      <p class="lead">{post.text}</p>
+    </section>
+
+    {post.sections.map((section) => (
+      <section>
+        <h2>{section.heading}</h2>
+        {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+    ))}
+  </article>
+</BaseLayout>
+
+<style>
+  .back {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .role {
+    margin-bottom: 0.5rem;
+  }
+
+  article section p:last-child {
+    margin-bottom: 0;
+  }
+</style>
