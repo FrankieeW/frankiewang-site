@@ -1,0 +1,192 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import {
+  formatDate,
+  getLocale,
+  localePath,
+  locales,
+  site,
+} from "../../../../data/site";
+import { getPostHistory, getPostLifecycle, remoteCommitUrl } from "../../../../lib/postHistory";
+import { renderDiffHtml } from "../../../../lib/diff";
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) =>
+    site[lang].posts.map((slug) => ({ params: { lang, slug } })),
+  );
+}
+
+const locale = getLocale(Astro.params.lang);
+const content = site[locale];
+const slug = Astro.params.slug;
+
+const revisions = getPostHistory(slug);
+const lifecycle = getPostLifecycle(slug);
+
+const remoteBase = remoteCommitUrl("");
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${content.blogPage.title} — history`}
+  description={`Edit history for ${slug}`}
+>
+  <article>
+    <section>
+      <p class="back">
+        <a href={localePath(locale, `blog/${slug}/`)}>← {slug}</a>
+      </p>
+      <h1>{slug}</h1>
+      <p class="muted">
+        {content.blogPage.publishedOn}
+        {lifecycle ? ` ${formatDate(lifecycle.publishedAt, locale)}` : " —"}
+        {lifecycle && lifecycle.updatedAt !== lifecycle.publishedAt && (
+          <>
+            {" · "}
+            {content.blogPage.updatedOn} {formatDate(lifecycle.updatedAt, locale)}
+          </>
+        )}
+      </p>
+      <p class="muted">
+        {revisions.length} {revisions.length === 1 ? "revision" : "revisions"}
+      </p>
+    </section>
+
+    {revisions.length === 0 ? (
+      <section>
+        <p class="muted todo">{content.blogPage.emptyHistory}</p>
+      </section>
+    ) : (
+      <ol class="revisions">
+        {revisions.map((rev) => {
+          const commitUrl = remoteCommitUrl(rev.hash) ?? remoteBase;
+          return (
+            <li class="revision">
+              <header class="revision-head">
+                <p class="rev-meta">
+                  <time datetime={rev.authorDate}>
+                    {formatDate(rev.authorDate, locale)}
+                  </time>
+                  <span class="muted"> · {rev.author}</span>
+                </p>
+                <h2 class="rev-message">{rev.message}</h2>
+                <p class="rev-hash">
+                  {commitUrl ? (
+                    <a href={commitUrl} target="_blank" rel="noopener noreferrer">
+                      <code>{rev.shortHash}</code>
+                    </a>
+                  ) : (
+                    <code>{rev.shortHash}</code>
+                  )}
+                </p>
+              </header>
+              <pre class="diff" set:html={renderDiffHtml(rev.diff)} />
+            </li>
+          );
+        })}
+      </ol>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .back {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .revisions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+  }
+
+  .revision {
+    border: 1px solid var(--rule, #e5e5e5);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+  }
+
+  .revision-head {
+    margin-bottom: 0.8rem;
+  }
+
+  .rev-meta {
+    font-size: 0.85rem;
+    margin: 0 0 0.3rem 0;
+    color: var(--text);
+  }
+
+  .rev-message {
+    font-size: 1.05rem;
+    margin: 0 0 0.3rem 0;
+    font-weight: 600;
+  }
+
+  .rev-hash {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .rev-hash code {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+  }
+
+  .diff {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin: 0;
+    padding: 0.6rem 0.8rem;
+    overflow-x: auto;
+    background: #fafafa;
+    border-radius: 4px;
+    white-space: pre;
+  }
+
+  .diff :global(.d) {
+    display: block;
+    padding: 0 0.4rem;
+    border-radius: 2px;
+  }
+
+  .diff :global(.d-add) {
+    background: #ddf4dd;
+    color: #1f6f2c;
+  }
+
+  .diff :global(.d-del) {
+    background: #fbe4e1;
+    color: #a31515;
+  }
+
+  .diff :global(.d-hunk) {
+    color: #6a737d;
+    background: #f1f8ff;
+  }
+
+  .diff :global(.d-file),
+  .diff :global(.d-diff) {
+    color: #6f42c1;
+    font-weight: 600;
+  }
+
+  .diff :global(.d-index) {
+    color: #6a737d;
+  }
+
+  .diff :global(.d-meta) {
+    color: #6a737d;
+  }
+
+  .diff :global(.d-empty) {
+    min-height: 0.6rem;
+  }
+
+  .todo {
+    font-style: italic;
+  }
+</style>

@@ -18,5 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "astro": "^6.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1"
   }
 }

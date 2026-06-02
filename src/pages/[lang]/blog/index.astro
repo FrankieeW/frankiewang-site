@@ -1,6 +1,14 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getLocale, localePath, locales, site } from "../../../data/site";
+import {
+  formatDate,
+  getLocale,
+  localePath,
+  locales,
+  site,
+} from "../../../data/site";
+import { getPost, listPostSlugs } from "../../../lib/posts";
+import { getPostLifecycle } from "../../../lib/postHistory";
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -8,6 +16,31 @@ export function getStaticPaths() {
 
 const locale = getLocale(Astro.params.lang);
 const content = site[locale];
+
+interface Entry {
+  slug: string;
+  title: string;
+  text: string;
+  topic: string;
+  dateLabel: string;
+}
+
+const entries: Entry[] = [];
+for (const slug of content.posts) {
+  const post = getPost(slug, locale);
+  if (!post) continue;
+  const lifecycle = getPostLifecycle(slug);
+  const iso = lifecycle?.publishedAt ?? null;
+  entries.push({
+    slug,
+    title: post.title,
+    text: post.text,
+    topic: post.topic,
+    dateLabel: iso ? formatDate(iso, locale) : post.topic,
+  });
+}
+
+const _allSlugs = listPostSlugs();
 ---
 
 <BaseLayout
@@ -21,18 +54,18 @@ const content = site[locale];
   </section>
 
   <section>
-    {content.posts.length === 0 ? (
+    {entries.length === 0 ? (
       <p class="muted todo">{content.blogPage.placeholder}</p>
     ) : (
       <ul class="entry-list">
-        {content.posts.map((post) => (
+        {entries.map((entry) => (
           <li>
-            <span class="entry-meta">{post.meta}</span>
+            <span class="entry-meta">{entry.dateLabel}</span>
             <div>
               <h3>
-                <a href={localePath(locale, `blog/${post.slug}/`)}>{post.title}</a>
+                <a href={localePath(locale, `blog/${entry.slug}/`)}>{entry.title}</a>
               </h3>
-              <p class="muted">{post.text}</p>
+              <p class="muted">{entry.text}</p>
             </div>
           </li>
         ))}
@@ -53,7 +86,7 @@ const content = site[locale];
   .entry-list li {
     display: grid;
     gap: 0.15rem;
-    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-columns: 9rem minmax(0, 1fr);
   }
 
   .entry-meta {

@@ -1,19 +1,38 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getLocale, localePath, locales, site } from "../../../data/site";
+import {
+  formatDate,
+  getLocale,
+  localePath,
+  locales,
+  site,
+} from "../../../data/site";
+import { getPost } from "../../../lib/posts";
+import { getPostLifecycle } from "../../../lib/postHistory";
 
 export function getStaticPaths() {
   return locales.flatMap((lang) =>
-    site[lang].posts.map((post) => ({
-      params: { lang, slug: post.slug },
-      props: { post },
-    })),
+    site[lang].posts.map((slug) => ({ params: { lang, slug } })),
   );
 }
 
 const locale = getLocale(Astro.params.lang);
 const content = site[locale];
-const { post } = Astro.props;
+const slug = Astro.params.slug;
+
+const post = getPost(slug, locale);
+if (!post) {
+  throw new Error(`Post "${slug}" not available in locale "${locale}"`);
+}
+
+const lifecycle = getPostLifecycle(slug);
+const publishedLabel = lifecycle
+  ? formatDate(lifecycle.publishedAt, locale)
+  : null;
+const updatedLabel =
+  lifecycle && lifecycle.publishedAt !== lifecycle.updatedAt
+    ? formatDate(lifecycle.updatedAt, locale)
+    : null;
 ---
 
 <BaseLayout locale={locale} title={post.title} description={post.text}>
@@ -22,9 +41,25 @@ const { post } = Astro.props;
       <p class="back">
         <a href={localePath(locale, "blog/")}>← {content.blogPage.title}</a>
       </p>
-      <p class="role muted">{post.meta}</p>
+      <p class="role muted">{post.topic}</p>
       <h1>{post.title}</h1>
       <p class="lead">{post.text}</p>
+      {publishedLabel && (
+        <p class="dates muted">
+          <time datetime={lifecycle!.publishedAt}>{content.blogPage.publishedOn} {publishedLabel}</time>
+          {updatedLabel && (
+            <>
+              {" · "}
+              <time datetime={lifecycle!.updatedAt}>{content.blogPage.updatedOn} {updatedLabel}</time>
+            </>
+          )}
+        </p>
+      )}
+      <p class="history-link">
+        <a href={localePath(locale, `blog/${slug}/history/`)}>
+          {content.blogPage.historyLink}
+        </a>
+      </p>
     </section>
 
     {post.sections.map((section) => (
@@ -44,6 +79,16 @@ const { post } = Astro.props;
 
   .role {
     margin-bottom: 0.5rem;
+  }
+
+  .dates {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .history-link {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
   }
 
   article section p:last-child {

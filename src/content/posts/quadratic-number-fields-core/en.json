@@ -1,0 +1,43 @@
+{
+  "topic": "Lean 4",
+  "title": "The core idea behind QuadraticNumberFields",
+  "text": "The project separates quadratic fields into three layers: an abstract property, a categorical packaging, and the concrete coordinate model Qsqrtd d.",
+  "sections": [
+    {
+      "heading": "The problem is not just writing down ℚ(√d)",
+      "paragraphs": [
+        "On paper, a quadratic field is often written as ℚ(√d), where d is squarefree. In Lean, the harder problem is not merely constructing that object. The harder problem is managing parameters, isomorphisms, rings of integers, discriminants, real and complex embeddings, and prime splitting in a way that remains computable.",
+        "Starting from an equivalence class of all quadratic fields would be mathematically elegant, but it would make everyday calculations heavier. Trace, norm, integrality, and discriminant arguments need coordinates. They need an element representation Lean can unfold and compute with. That is why the project keeps a concrete standard model at the center."
+      ]
+    },
+    {
+      "heading": "Three layers",
+      "paragraphs": [
+        "The first layer is `QuadraticField K`: an abstract property saying that a field K, equipped as a ℚ-algebra, is a quadratic extension. It is a semantic layer, not a coordinate model.",
+        "The second layer is `QuadraticFieldCat`: a bundled category whose objects are such fields and whose morphisms are ℚ-algebra homomorphisms. This is the layer for equivalences, functors, naturality, and transporting results.",
+        "The third layer is `Qsqrtd d`, the standard coordinate model for ℚ(√d). This is where the project should do concrete arithmetic: traces, norms, conjugation, integral bases, discriminants, and splitting criteria."
+      ]
+    },
+    {
+      "heading": "Why Qsqrtd d stays central",
+      "paragraphs": [
+        "A coordinate model is not a low-level implementation detail. For quadratic fields, it is the place where Lean can see the arithmetic. The current ring-of-integers classification follows this shape: prove the result in the standard model, separating the cases d mod 4, and identify the ring of integers with either ℤ[√d] or ℤ[(1+√d)/2].",
+        "The rescaling equivalences `Qsqrtd d ≃ₐ[ℚ] Qsqrtd (a² d)` and the classification of when `Qsqrtd d` and `Qsqrtd d'` are isomorphic are therefore not auxiliary conveniences. They are the bridge between coordinates and the abstract notion of a quadratic field."
+      ]
+    },
+    {
+      "heading": "Classification as a bridge",
+      "paragraphs": [
+        "The intended workflow is to calculate in `Qsqrtd d`, classify squarefree parameters, and then transport theorems to any `Algebra.IsQuadraticExtension ℚ K`. This avoids reproving concrete arithmetic for every abstract field K, while also avoiding quotient definitions at the bottom of every computation.",
+        "The same pattern should organize real versus imaginary behavior and prime splitting. Compute the sign, embeddings, and Legendre-symbol trichotomy in the standard model; then package the final statements as invariants of quadratic extensions."
+      ]
+    },
+    {
+      "heading": "The real object being designed",
+      "paragraphs": [
+        "The heart of the project is the relationship among `QuadraticField`, `QuadraticFieldCat`, and `Qsqrtd`. `Qsqrtd` gives coordinates. `QuadraticField` gives the abstract mathematical meaning. `QuadraticFieldCat` gives a disciplined place for equivalences and transport.",
+        "In that sense, QuadraticNumberFields is not only a formalization of examples of ℚ(√d). It is an attempt to build a reusable interface for quadratic fields in Lean: coordinates first, classification as the bridge, abstraction as the final language."
+      ]
+    }
+  ]
+}

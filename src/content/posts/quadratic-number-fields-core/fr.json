@@ -1,0 +1,35 @@
+{
+  "topic": "Lean 4",
+  "title": "Calculer les corps quadratiques avec des coordonnées",
+  "text": "L'idée centrale de QuadraticNumberFields est de séparer la propriété abstraite, la catégorie des objets quadratiques et le modèle calculable Qsqrtd d.",
+  "sections": [
+    {
+      "heading": "Le problème n'est pas seulement d'écrire ℚ(√d)",
+      "paragraphs": [
+        "Sur le papier, un corps quadratique s'écrit souvent ℚ(√d), avec d sans facteur carré. Dans Lean, le problème est plus structurel : il faut aussi contrôler les changements de paramètre, les isomorphismes, les anneaux d'entiers, les discriminants et la décomposition des idéaux premiers.",
+        "Définir tout de suite les corps quadratiques comme une classe d'équivalence donnerait une belle classification, mais rendrait les calculs plus lourds. Pour les traces, les normes, l'intégralité et les discriminants, on veut un modèle où les éléments ont des coordonnées visibles. C'est le rôle de `Qsqrtd d`."
+      ]
+    },
+    {
+      "heading": "Trois niveaux",
+      "paragraphs": [
+        "Le premier niveau est `QuadraticField K` : une propriété disant que K est une extension quadratique de ℚ. Le deuxième est `QuadraticFieldCat` : une catégorie dont les objets sont ces corps et dont les morphismes sont les morphismes de ℚ-algèbres. Le troisième est `Qsqrtd d`, le modèle standard ℚ(√d).",
+        "Ces niveaux ne se remplacent pas. `Qsqrtd d` sert à calculer, `QuadraticField K` sert à formuler les théorèmes abstraits, et `QuadraticFieldCat` sert à organiser les isomorphismes, les foncteurs et le transport des résultats."
+      ]
+    },
+    {
+      "heading": "La classification sert de pont",
+      "paragraphs": [
+        "Deux modèles `Qsqrtd d` et `Qsqrtd d'` sont isomorphes lorsque le rapport d'/d est un carré rationnel. Ce fait doit être un théorème de classification et un outil de transport, pas nécessairement la définition de base.",
+        "La stratégie du projet est donc de prouver les résultats dans le modèle standard, puis de les transporter le long des isomorphismes vers une extension quadratique abstraite. On garde ainsi les coordonnées quand elles sont utiles, sans perdre la formulation invariantielle finale."
+      ]
+    },
+    {
+      "heading": "Ce que le projet organise vraiment",
+      "paragraphs": [
+        "Les théorèmes sur les anneaux d'entiers, les discriminants, les plongements réels ou complexes et la décomposition des idéaux premiers suivent tous ce même schéma. On calcule dans `Qsqrtd d`, on contrôle les changements de paramètres par rescaling, puis on exprime le résultat dans le langage abstrait des extensions quadratiques.",
+        "C'est pourquoi la relation entre `QuadraticField`, `QuadraticFieldCat` et `Qsqrtd` est le cœur du projet. Le modèle standard donne les coordonnées, la classification donne le pont, et la couche catégorique donne une manière propre de transporter les mathématiques déjà prouvées."
+      ]
+    }
+  ]
+}
