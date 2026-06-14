@@ -35,6 +35,7 @@ const projectLinks = {
 
 const resourceLinks = {
   dutLetter: "https://github.com/FrankieeW/DUT-letter-latex",
+  numberTheory: "https://numbertheory.cc",
 };
 
 export const socials = [
@@ -171,6 +172,11 @@ export const site = {
         name: "DUT recommendation letter template",
         description: "A LaTeX template for Dalian University of Technology recommendation letters.",
         url: resourceLinks.dutLetter,
+      },
+      {
+        name: "numbertheory.cc",
+        description: "A personal number theory site showcasing work on quadratic number fields and Lean-based formal verification.",
+        url: resourceLinks.numberTheory,
       },
     ],
     posts: ["quadratic-number-fields-core"],
@@ -395,6 +401,11 @@ export const site = {
         description: "大连理工大学推荐信的 LaTeX 模板。",
         url: resourceLinks.dutLetter,
       },
+      {
+        name: "numbertheory.cc",
+        description: "展示二次数域与 Lean 形式化验证工作的个人数论网站。",
+        url: resourceLinks.numberTheory,
+      },
     ],
     posts: ["quadratic-number-fields-core"],
     researchInterests: [
@@ -618,6 +629,11 @@ export const site = {
         name: "Modèle de lettre de recommandation DUT",
         description: "Un modèle LaTeX pour les lettres de recommandation de Dalian University of Technology.",
         url: resourceLinks.dutLetter,
+      },
+      {
+        name: "numbertheory.cc",
+        description: "Un site personnel sur la théorie des nombres présentant des travaux sur les corps quadratiques et la formalisation en Lean.",
+        url: resourceLinks.numberTheory,
       },
     ],
     posts: ["quadratic-number-fields-core"],
