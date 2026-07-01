@@ -1,4 +1,5 @@
 ---
+import OrcidLink from "../../../components/OrcidLink.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getLocale, locales, site, socials } from "../../../data/site";
 
@@ -23,6 +24,7 @@ const githubHandle = (url: string) => url.replace("https://github.com/", "@");
     <p class="muted">{content.contactPage.lead}</p>
     <ul class="contact-list">
       <li>Email · <a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+      <li>ORCID · <OrcidLink /></li>
       <li>
         GitHub ·
         <a href={profile.github}>{githubHandle(profile.github)}</a>

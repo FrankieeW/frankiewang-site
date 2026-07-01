@@ -1,0 +1,35 @@
+---
+const orcidUrl = "https://orcid.org/0009-0003-3705-1549";
+---
+
+<a
+  id="cy-effective-orcid-url"
+  class="underline"
+  href={orcidUrl}
+  target="orcid.widget"
+  rel="me noopener noreferrer"
+  style="vertical-align: top"
+>
+  <img
+    src="https://orcid.org/sites/default/files/images/orcid_16x16.png"
+    width="16"
+    height="16"
+    decoding="async"
+    style="width: 1em; height: 1em; margin-inline-start: 0.5em"
+    alt="ORCID iD icon"
+  />
+  {orcidUrl}
+</a>
+
+<style>
+  .underline {
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+  }
+
+  img {
+    display: inline-block;
+    max-width: none;
+    vertical-align: -0.12em;
+  }
+</style>
