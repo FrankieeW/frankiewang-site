@@ -3,5 +3,6 @@ dist/
 .astro/
 .vercel/
 .omx/
+.omc/
 .DS_Store
 *.log
